@@ -1,4 +1,4 @@
-export interface IQueue {
+export interface Queue {
 	id: string;
 	ownerIdentity: string;
 	name: string;

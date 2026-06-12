@@ -1,9 +1,11 @@
 export type Method = "set" | "get" | "merge" | "delete";
 export type Status = "success" | "failure";
 
-export interface IBlipSuccessfullResponse<T> {
-	type: string;
-	resource: T;
+export type IBlipSuccessfulResponse<T = never> = [T] extends [never]
+	? BlipBaseResponse & { method: Omit<Method, "get"> }
+	: BlipBaseResponse & { type: string; resource: T };
+
+interface BlipBaseResponse {
 	method: Method;
 	status: "success";
 	id: string;
@@ -11,7 +13,6 @@ export interface IBlipSuccessfullResponse<T> {
 	to: string;
 	metadata: Record<string, any>;
 }
-
 export interface IBlipErrorResponsedata {
 	method: Method;
 	status: "failure";
@@ -30,8 +31,15 @@ export interface IBlipCollectionResponse<T> {
 	itemType: string;
 	items: T[];
 }
+export interface IBlipCursorCollectionResponse<T> {
+	hasMore: boolean;
+	total: number;
+	itemType: string;
+	items: T[];
+	nextCursor?: string
+}
 
-export type BlipCommandResponse<T> = IBlipSuccessfullResponse<T> | IBlipErrorResponsedata;
+export type BlipCommandResponse<T> = IBlipSuccessfulResponse<T> | IBlipErrorResponsedata; 
 
 export interface IBlipReadCommandBody {
 	to: string;
@@ -49,7 +57,7 @@ export interface IBlipWriteCommandBody {
 	to: string;
 	method: Extract<Method, "set">;
 	type: string;
-	resource: Record<string, any> | string;
+	resource: Record<string, any> | string | Resource;
 	uri: string;
 }
 
@@ -61,3 +69,13 @@ export interface IBlipMessageBody {
 }
 
 export type IBlipCommandBody = IBlipWriteCommandBody | IBlipReadCommandBody | IBlipDeleteCommandBody;
+
+export interface IPagination {
+	take: number;
+	skip: number;
+}
+
+export interface Resource {
+	itemType: string,
+	items: Record<string, any>[]
+}

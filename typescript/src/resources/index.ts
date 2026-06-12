@@ -1,2 +1,3 @@
-export * from '../interfaces/IAttendant.js'
-export * from '../interfaces/IQueue.js'
+export * from '../interfaces/Attendant.js'
+export * from '../interfaces/Queue.js'
+

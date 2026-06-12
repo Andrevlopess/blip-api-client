@@ -1,21 +1,45 @@
 {
-  "name": "typescript",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "dev": "tsx index.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.18.3",
-  "dependencies": {
-    "axios": "^1.17.0"
-  },
-  "devDependencies": {
-    "@types/node": "^25.9.3",
-    "tsx": "^4.22.4"
-  }
+	"name": "@andrevlopes/blip-api-client",
+	"version": "1.0.2",
+	"description": "Blip API Client for javascript",
+	"type": "module",
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"build"
+	],
+	"types": "./build/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./build/index.d.ts",
+			"import": "./build/index.js",
+			"require": "./build/index.js"
+		}
+	},
+	"scripts": {
+		"build": "tsc",
+		"prepublishOnly": "npm run build",
+		"dev": "tsx src/index.ts"
+	},
+	"keywords": [
+		"blip",
+		"skeps",
+		"api-client"
+	],
+	"author": "Andre V Lopes <andrellopes021@gmail.com> (https://github.com/Andrevlopess)",
+	"license": "ISC",
+	"homepage": "https://github.com/Andrevlopess/blip-api-client",
+	"bugs": {
+		"url": "https://github.com/Andrevlopess/blip-api-client/issues"
+	},
+	"packageManager": "pnpm@10.18.3",
+	"dependencies": {
+		"axios": "^1.17.0",
+		"zod": "^4.4.3"
+	},
+	"devDependencies": {
+		"@types/node": "^25.9.3",
+		"tsx": "^4.22.4"
+	}
 }
