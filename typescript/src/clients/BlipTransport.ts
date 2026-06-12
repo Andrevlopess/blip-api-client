@@ -75,6 +75,7 @@ export class BlipTransport {
 	}
 
 	buildSearchParams(params: string | string[][] | Record<string, string> | URLSearchParams) {
-		return new URLSearchParams(params).toString().replace(/\+/g, "%20");
+		if (!Object.keys(params).length) return "";
+		return `?${new URLSearchParams(params).toString().replace(/\+/g, "%20")}`
 	}
 }

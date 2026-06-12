@@ -5,26 +5,32 @@ import {
 	CreateOrUpdateAttendantSchema,
 	type CreateOrUpdateAttendantData,
 } from "@/schemas/AttendantSchemas.js";
+import { PaginationSchema, type Pagination } from "@/schemas/PaginationSchema.js";
 import z from "zod";
 import type { BlipTransport } from "../clients/BlipTransport.js";
 import type { Attendant, AttendantPermission, CreateAttendantPermission } from "../interfaces/Attendant.js";
-import type { IBlipCollectionResponse, IBlipSuccessfulResponse, IPagination } from "../types/BlipCommands.js";
+import type { IBlipCollectionResponse, IBlipSuccessfulResponse } from "../types/BlipCommands.js";
 
 interface IFindAllParams {
-	pagination?: Partial<IPagination>;
+	pagination?: Partial<Pagination>;
 }
 
 export class AttendantsResources {
 	constructor(private readonly transport: BlipTransport) {}
 
 	async findAll(params?: IFindAllParams): Promise<Attendant[]> {
-		const { skip = 0, take = 9999 } = params?.pagination ?? {};
 
-		const searchParams = {
-			$skip: String(skip),
-			$take: String(take),
+		const searchParams: Record<string, string> = {
 			includeStatus: "false",
 		};
+
+		if (params?.pagination) {
+			const { skip = 0, take = 500 } = PaginationSchema.parse(params.pagination);
+
+			searchParams.$skip = String(skip);
+			searchParams.$take = String(take);
+		}
+
 
 		const { resource } = await this.transport.sendCommand<IBlipCollectionResponse<Attendant>>({
 			method: "get",

@@ -70,11 +70,6 @@ export interface IBlipMessageBody {
 
 export type IBlipCommandBody = IBlipWriteCommandBody | IBlipReadCommandBody | IBlipDeleteCommandBody;
 
-export interface IPagination {
-	take: number;
-	skip: number;
-}
-
 export interface Resource {
 	itemType: string,
 	items: Record<string, any>[]

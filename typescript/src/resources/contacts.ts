@@ -1,9 +1,10 @@
 import type { BlipTransport } from "@/clients/BlipTransport.js";
 import { ContactFilterSchema, ContactIdentitySchema, ContactSchema, type Contact, type ContactFilter } from "@/schemas/ContactSchemas.js";
-import type { IBlipCollectionResponse, IBlipCursorCollectionResponse, IBlipSuccessfulResponse, IPagination } from "../types/BlipCommands.js";
+import type { IBlipCursorCollectionResponse, IBlipSuccessfulResponse } from "../types/BlipCommands.js";
+import { PaginationSchema, type Pagination } from "@/schemas/PaginationSchema.js";
 
 interface IFindAllParams {
-	pagination?: Partial<IPagination>;
+	pagination?: Partial<Pagination>;
 	filter?: ContactFilter;
 }
 
@@ -11,21 +12,22 @@ export class ContactsResources {
 	constructor(private readonly transport: BlipTransport) {}
 
 	async findAll(params?: IFindAllParams): Promise<IBlipCursorCollectionResponse<Contact>> {
-		const { skip = 0, take = 20 } = params?.pagination ?? {};
 
-		const searchParams: Record<string, string> = {
-			$skip: String(skip),
-			$take: String(take),
-		};
+		const searchParams: Record<string, string> = {};
+
+		if (params?.pagination) {
+			const { skip = 0, take = 20 } = PaginationSchema.parse(params.pagination);
+
+			searchParams.$skip = String(skip);
+			searchParams.$take = String(take);
+		}
 
 		if (params?.filter) {
 			const parsed = ContactFilterSchema.parse(params?.filter);
 			searchParams.$filter = this.buildFilter(parsed);
 		}
 
-		console.log(this.transport.buildSearchParams(searchParams));
-
-		const {resource } = await this.transport.sendCommand<IBlipCursorCollectionResponse<Contact>>({
+		const { resource } = await this.transport.sendCommand<IBlipCursorCollectionResponse<Contact>>({
 			method: "get",
 			to: "postmaster@crm.msging.net",
 			uri: `/contacts-cursor?${this.transport.buildSearchParams(searchParams)}`,
