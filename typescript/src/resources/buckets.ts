@@ -1,6 +1,6 @@
 import type { BlipTransport } from "@/clients/BlipTransport.js";
 import { DocumentKeySchema, DocumentSchema, type Document } from "@/schemas/BucketSchemas.js";
-import { type IBlipCollectionResponse, type IBlipSuccessfulResponse } from "../types/BlipCommands.js";
+import { type IBlipCollectionResponse, type IBlipGetResponse, type IBlipSuccessfulResponse } from "../types/BlipCommands.js";
 
 
 export class BucketsResource {
@@ -16,14 +16,16 @@ export class BucketsResource {
 		return resource.items;
 	}
 
-	async findDocument(documentKey: string): Promise<any | null> {
+	async findDocument<T>(documentKey: string): Promise<T> {
 		const key = DocumentKeySchema.parse(documentKey);
 
-		return await this.transport.sendCommand({
+		const { resource } = (await this.transport.sendCommand<T>({
 			method: "get",
 			to: "postmaster@msging.net",
 			uri: `/buckets/${key}`,
-		});
+		})) as IBlipGetResponse<T>
+
+		return resource
 	}
 
 	async setDocument(documentKey: string, document: Document): Promise<IBlipSuccessfulResponse> {

@@ -7,3 +7,9 @@ export interface Queue {
 	Priority: number;
 	uniqueId: string;
 }
+export interface IQueueTag {
+	attendanceQueueId: string;
+	id: string;
+	ownerIdentity: string;
+	tag: string;
+}

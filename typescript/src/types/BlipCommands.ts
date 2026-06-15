@@ -1,11 +1,13 @@
 export type Method = "set" | "get" | "merge" | "delete";
 export type Status = "success" | "failure";
 
-export type IBlipSuccessfulResponse<T = never> = [T] extends [never]
-	? BlipBaseResponse & { method: Omit<Method, "get"> }
-	: BlipBaseResponse & { type: string; resource: T };
+export type IBlipMutationResponse = BlipBaseResponse & { method: Omit<Method, "get"> };
 
-interface BlipBaseResponse {
+export type IBlipGetResponse<T> = BlipBaseResponse & { type: string; resource: T };
+
+export type IBlipSuccessfulResponse<T = never> = [T] extends [never] ? IBlipMutationResponse : IBlipGetResponse<T>;
+
+export interface BlipBaseResponse {
 	method: Method;
 	status: "success";
 	id: string;

@@ -26,7 +26,7 @@ export class BlipTransport {
 		api.defaults.headers.common["Content-Type"] = "application/json";
 	}
 
-	public setConfig({ tenant, apiKey, maxConcurrentRequests }: Partial<BlipTransportConfig>) {
+	setConfig({ tenant, apiKey, maxConcurrentRequests }: Partial<BlipTransportConfig>) {
 		if (tenant) this.tenant = tenant;
 		if (apiKey) {
 			this.apiKey = apiKey.startsWith("Key ") ? apiKey : `Key ${apiKey}`;
@@ -38,12 +38,16 @@ export class BlipTransport {
 		}
 	}
 
-	public async sendCommand<T = never>(body: IBlipCommandBody): Promise<IBlipSuccessfulResponse<T>> {
+	async sendCommand<T = never>(body: IBlipCommandBody): Promise<IBlipSuccessfulResponse<T>> {
 		try {
 			const id = crypto.randomUUID();
 
 			return this.limit(async () => {
 				console.log(`${body.method} command to ${body.uri}`);
+
+				if (body.method !== "get") {
+					console.log("body: ", body);
+				}
 
 				const { data } = await api.post<BlipCommandResponse<T>>(`https://${this.tenant}.http.msging.net/commands`, {
 					id,
@@ -62,7 +66,7 @@ export class BlipTransport {
 		}
 	}
 
-	public async sendMessage(body: IBlipMessageBody): Promise<void> {
+	async sendMessage(body: IBlipMessageBody): Promise<void> {
 		const id = crypto.randomUUID();
 
 		return this.limit(async () => {
@@ -76,6 +80,6 @@ export class BlipTransport {
 
 	buildSearchParams(params: string | string[][] | Record<string, string> | URLSearchParams) {
 		if (!Object.keys(params).length) return "";
-		return `?${new URLSearchParams(params).toString().replace(/\+/g, "%20")}`
+		return `?${new URLSearchParams(params).toString().replace(/\+/g, "%20")}`;
 	}
 }
