@@ -56,10 +56,18 @@ const client = new BlipClient({
 });
 
 
-// const res = await client.attendants.findAll();
+// const res = await client.desk.getAllWaitingTickets()
 
-
-const res = await client.attendants.delete("teste@gmail.com")
+// const res = await client.tickets.create({
+// 	customerIdentity: "a4c0dfc6-3013-46d0-b605-bc1e2e0eb400@tunnel.msging.net",
+// });
+const res = await client.tickets.close({
+	status: "ClosedAttendant",
+	id: "76b7e9ea-2f56-4be4-95c1-019ed2030e64",
+	closedBy: "andre.lopes%40skeps.com.br@blip.ai",
+	customerIdentity: "a4c0dfc6-3013-46d0-b605-bc1e2e0eb400@tunnel.msging.net",
+	tags: ["teste"],
+});
 console.log(res);
 
 // // const res = await client.buckets.findDocument<string>("blip:desk:tags");
