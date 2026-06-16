@@ -8,7 +8,7 @@
 		// Environment Settings
 		// See also https://aka.ms/tsconfig/module
 		"module": "nodenext",
-    "moduleResolution": "nodenext",
+		"moduleResolution": "nodenext",
 		"target": "esnext",
 		// "types": [],
 		"lib": ["esnext"],
@@ -44,5 +44,6 @@
 		"paths": {
 			"@/*": ["./src/*"]
 		}
-	}
+	},
+	"exclude": ["node_modules", "build", "src/examples/**"]
 }
