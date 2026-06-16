@@ -52,8 +52,8 @@ const gradTags = [
 
 const client = new BlipClient({
 	tenant: "wlck",
-	// apiKey: "ZGV2c2tlcHNyb3V0ZXI6WnUxUmFBZEZFRDJNT1Nqellld0c=",
-	apiKey: "dGVzdGVpYTE1NzpVbUEzN2p5WDA2Zk9ZS2dHRUJkUQ==",
+	apiKey: "ZGV2c2tlcHNyb3V0ZXI6WnUxUmFBZEZFRDJNT1Nqellld0c=",
+	// apiKey: "dGVzdGVpYTE1NzpVbUEzN2p5WDA2Zk9ZS2dHRUJkUQ==",
 });
 
 // const res = await client.buckets.findDocument<string>("blip:desk:tags");
@@ -65,7 +65,48 @@ const client = new BlipClient({
 
 // const tags = Array.from({ length: 5 }).map((_, i) => `Tag add ${i}`);
 
-const res = await client.queues.getQueueTags("ac7626d4-29bf-4a48-990d-019ca01946e1");
+
+const attendants = await client.flows.findById("2416097588897135");
+// const queues = await client.queues.findAll()
+
+// console.log(queues);
+
+
+// await Promise.all(
+// 	attendants.map((attendant) =>
+// 		client.attendants.createOrUpdate({
+// 			...attendant,
+// 			teams: queues.map(q => q.name)
+// 		}),
+// 	),
+// );
+console.log(attendants);
+
+// const res = await client.queues.setQueueAttendanceRules({
+// 	id: "e23b17da-eb43-4b9a-a394-6dbe4bdc93bb",
+// 	title: "teste rule",
+// 	team: "tags queue",
+// 	relation: "Contains",
+// 	isActive: true,
+// 	conditions: [
+// 		{
+// 			property: "Contact.Email",
+// 			relation: "Contains",
+// 			values: ["teste"]
+// 			// extrasProperty: "tttttaa",
+// 		},
+// 		{
+// 			property: "Contact.Email",
+// 			relation: "Contains",
+// 			values: ["teste"]
+// 			// extrasProperty: "tttttaa",
+// 		},
+// 	],
+// 	operator: "And",
+// 	priority: 2,
+// 	queueId: "058cb97e-1bf1-48cb-a3ba-019eccbd9965",
+// });
+// console.log(res);
 
 
 // await client.queues.setQueueTags(res.id, gradTags)
