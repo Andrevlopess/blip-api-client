@@ -21,7 +21,7 @@ export const UpdateQueueSchema = z.object({
 const RelationSchema = z.enum(["Contains", "NotContains", "Equals", "NotEquals"]);
 
 const BaseConditionSchema = z.object({
-	id: z.uuid(),
+	// id: z.uuid(),
 	relation: RelationSchema,
 	values: z.array(z.string()).min(1),
 });
@@ -36,14 +36,11 @@ const ContactNameConditionSchema = BaseConditionSchema.extend({
 
 const ContactEmailConditionSchema = BaseConditionSchema.extend({
 	property: z.literal("Contact.Email"),
-	errorValues: z.enum(["true", "false"]).optional(),
 });
 
 const ContactExtrasConditionSchema = BaseConditionSchema.extend({
 	property: z.string().startsWith("Contact.Extras."),
 	extrasProperty: z.string(),
-	errorExtras: z.enum(["true", "false"]),
-	errorValues: z.enum(["true", "false"]),
 });
 
 const ConditionSchema = z.union([
@@ -54,8 +51,7 @@ const ConditionSchema = z.union([
 ]);
 
 export const RoutingRuleSchema = z.object({
-	id: z.uuid(),
-	ownerIdentity: z.string(),
+	id: z.uuid().optional(),
 	title: z.string(),
 	team: z.string(),
 	relation: RelationSchema,
@@ -63,7 +59,7 @@ export const RoutingRuleSchema = z.object({
 	conditions: z.array(ConditionSchema),
 	operator: z.enum(["And", "Or"]),
 	priority: z.number().int(),
-	storageDate: z.iso.datetime(),
+	// storageDate: z.iso.datetime(),
 	queueId: z.uuid(),
 });
 

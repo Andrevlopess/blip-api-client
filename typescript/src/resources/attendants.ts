@@ -13,13 +13,13 @@ import type { IBlipCollectionResponse, IBlipSuccessfulResponse } from "../types/
 
 interface IFindAllParams {
 	pagination?: Partial<Pagination>;
+	teams?: string[];
 }
 
 export class AttendantsResources {
 	constructor(private readonly transport: BlipTransport) {}
 
 	async findAll(params?: IFindAllParams): Promise<Attendant[]> {
-
 		const searchParams: Record<string, string> = {
 			includeStatus: "false",
 		};
@@ -30,12 +30,14 @@ export class AttendantsResources {
 			searchParams.$skip = String(skip);
 			searchParams.$take = String(take);
 		}
-
+		if (params?.teams) {
+			searchParams.teams = params.teams.join(",");
+		}
 
 		const { resource } = await this.transport.sendCommand<IBlipCollectionResponse<Attendant>>({
 			method: "get",
 			to: "postmaster@desk.msging.net",
-			uri: `/agents/v2?${this.transport.buildSearchParams(searchParams)}`,
+			uri: `/agents/v2${this.transport.buildSearchParams(searchParams)}`,
 		});
 
 		return resource.items;
@@ -53,7 +55,7 @@ export class AttendantsResources {
 		const { resource } = await this.transport.sendCommand<IBlipCollectionResponse<Attendant>>({
 			method: "get",
 			to: "postmaster@desk.msging.net",
-			uri: `/attendants?${this.transport.buildSearchParams(searchParams)}`,
+			uri: `/attendants${this.transport.buildSearchParams(searchParams)}`,
 		});
 
 		return resource.items[0] ?? null;
@@ -74,7 +76,7 @@ export class AttendantsResources {
 		return await this.transport.sendCommand({
 			method: "set",
 			to: "postmaster@desk.msging.net",
-			uri: `/attendants?${this.transport.buildSearchParams(searchParams)}`,
+			uri: `/attendants${this.transport.buildSearchParams(searchParams)}`,
 			type: "application/vnd.lime.collection+json",
 			resource: {
 				itemType: "application/vnd.iris.desk.attendant+json",
@@ -140,7 +142,7 @@ export class AttendantsResources {
 		return await this.transport.sendCommand({
 			method: "set",
 			to: "postmaster@desk.msging.net",
-			uri: `/attendants?${this.transport.buildSearchParams(searchParams)}`,
+			uri: `/attendants${this.transport.buildSearchParams(searchParams)}`,
 			type: "application/vnd.lime.collection+json",
 			resource: {
 				itemType: "application/vnd.iris.desk.attendant+json",
