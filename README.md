@@ -1,3 +1,125 @@
+# Resources Overview
+
+## Queues
+
+```ts
+client.queues
+```
+
+| Method | Description |
+|----------|-------------|
+| findAll | Retrieve all attendance queues |
+| set | Create a new attendance queue |
+| update | Update an existing attendance queue |
+| delete | Delete an attendance queue |
+
+### Queue Tags
+
+```ts
+client.queues.tags
+```
+
+| Method | Description |
+|----------|-------------|
+| findQueueTags | Retrieve all tags associated with a queue |
+| setQueueTags | Replace all tags associated with a queue |
+
+### Queue Rules
+
+```ts
+client.queues.rules
+```
+
+| Method | Description |
+|----------|-------------|
+| findAll | Retrieve routing rules for a queue |
+| set | Create or update a routing rule |
+| delete | Delete a routing rule |
+
+---
+
+## Attendants
+
+```ts
+client.attendants
+```
+
+| Method | Description |
+|----------|-------------|
+| findAll | Retrieve all attendants |
+| findByEmail | Retrieve an attendant by email |
+| createOrUpdate | Create or update an attendant |
+| delete | Delete an attendant |
+| findPermissions | Retrieve an attendant's permissions |
+| setPermissions | Assign permissions to an attendant |
+| setQueuesByEmail | Assign queues to an attendant |
+
+---
+
+## Contacts
+
+```ts
+client.contacts
+```
+
+| Method | Description |
+|----------|-------------|
+| findAll | Retrieve contacts with pagination and filtering |
+| findByIdentity | Retrieve a contact by identity |
+| createOrUpdate | Create or update a contact |
+| delete | Delete a contact |
+
+---
+
+## Messages
+
+```ts
+client.messages
+```
+
+| Method | Description |
+|----------|-------------|
+| sendMessage | Send a message to a destination |
+| sendEmail | Send an email |
+| getThreads | Retrieve conversation messages from a contact thread |
+
+---
+
+## WhatsApp Flows
+
+```ts
+client.flows
+```
+
+| Method | Description |
+|----------|-------------|
+| findAll | Retrieve all WhatsApp Flows |
+| findById | Retrieve a WhatsApp Flow by ID |
+| create | Create a new WhatsApp Flow |
+| updateMetadata | Update Flow metadata |
+| getFlowJson | Retrieve a Flow JSON definition |
+| updateFlowJson | Update a Flow JSON definition |
+| publish | Publish a WhatsApp Flow |
+| deprecate | Deprecate a WhatsApp Flow |
+| uploadPublicKey | Upload a Flow public key |
+| getUploadedPublicKey | Retrieve the uploaded public key |
+
+---
+
+## Buckets
+
+```ts
+client.buckets
+```
+
+| Method | Description |
+|----------|-------------|
+| findDocumentCollection | Retrieve all stored bucket document keys |
+| findDocument | Retrieve a document by key |
+| setDocument | Create or update a document |
+| deleteDocument | Delete a document |
+```
+
 # Queues
 
 ```ts
@@ -1495,14 +1617,14 @@ Uploads a new Flow JSON definition to a WhatsApp Flow.
 
 ---
 
-# publishFlow
+# publish
 
 Publish a WhatsApp Flow.
 
 ## Usage
 
 ```ts
-await client.flows.publishFlow(
+await client.flows.publish(
   "1538437607759409"
 );
 ```
@@ -1510,7 +1632,7 @@ await client.flows.publishFlow(
 ## Signature
 
 ```ts
-publishFlow(
+publish(
   flowId: string
 ): Promise<IBlipSuccessfulResponse>
 ```
@@ -1547,14 +1669,14 @@ Publishes a WhatsApp Flow, making it available for use.
 
 ---
 
-# deprecateFlow
+# deprecate
 
 Deprecate a WhatsApp Flow.
 
 ## Usage
 
 ```ts
-await client.flows.deprecateFlow(
+await client.flows.deprecate(
   "1538437607759409"
 );
 ```
@@ -1562,7 +1684,7 @@ await client.flows.deprecateFlow(
 ## Signature
 
 ```ts
-deprecateFlow(
+deprecate(
   flowId: string
 ): Promise<IBlipSuccessfulResponse>
 ```
