@@ -1,5 +1,5 @@
-import { BlipClient } from "./clients/BlipClient.js";
-import { jsonLog } from "./utils/jsonLog.js";
+import { BlipClient } from "../clients/BlipClient.js";
+import { jsonLog } from "../utils/jsonLog.js";
 interface TagsDocument {
 	tags: { text: string }[];
 	hasTags: boolean;

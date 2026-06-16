@@ -59,7 +59,6 @@ export const RoutingRuleSchema = z.object({
 	conditions: z.array(ConditionSchema),
 	operator: z.enum(["And", "Or"]),
 	priority: z.number().int(),
-	// storageDate: z.iso.datetime(),
 	queueId: z.uuid(),
 });
 

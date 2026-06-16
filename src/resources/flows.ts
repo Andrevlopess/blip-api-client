@@ -98,7 +98,7 @@ export class FlowsResources {
 		return resource;
 	}
 
-	async publishFlow(flowId: string): Promise<IBlipSuccessfulResponse> {
+	async publish(flowId: string): Promise<IBlipSuccessfulResponse> {
 		const id = FlowIdSchema.parse(flowId);
 
 		return await this.transport.sendCommand({
@@ -108,7 +108,7 @@ export class FlowsResources {
 		});
 	}
 
-	async deprecateFlow(flowId: string): Promise<IBlipSuccessfulResponse> {
+	async deprecate(flowId: string): Promise<IBlipSuccessfulResponse> {
 		const id = FlowIdSchema.parse(flowId);
 
 		return await this.transport.sendCommand({
