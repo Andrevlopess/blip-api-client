@@ -1,7 +1,7 @@
-import type { BlipTransportConfig } from "@/types/BlipTransportConfig.js";
 import pLimit, { type LimitFunction } from "p-limit";
 import { CommandError } from "../errors/CommandError.js";
 import { api } from "../lib/api.js";
+import type { BlipTransportConfig } from "../types/BlipTransportConfig.js";
 import type {
 	BlipCommandResponse,
 	IBlipCommandBody,

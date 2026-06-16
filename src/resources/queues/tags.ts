@@ -1,8 +1,8 @@
-import { PaginationSchema, type Pagination } from "@/schemas/PaginationSchema.js";
 import type { BlipTransport } from "../../clients/BlipTransport.js";
 import type { IQueueTag } from "../../interfaces/Queue.js";
 import type { IBlipCollectionResponse, IBlipSuccessfulResponse } from "../../types/BlipCommands.js";
-import { QueueIdSchema } from "@/schemas/QueueSchemas.js";
+import { PaginationSchema, type Pagination } from "../../schemas/PaginationSchema.js";
+import { QueueIdSchema } from "../../schemas/QueueSchemas.js";
 interface IPaginationParams {
 	pagination?: Partial<Pagination>;
 }

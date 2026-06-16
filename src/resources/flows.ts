@@ -1,10 +1,11 @@
+import type { BlipTransport } from "../clients/BlipTransport.js";
 import type {
 	DetailedFlows,
 	Flows,
 	FlowsJsonResponse,
 	GetFlowsJsonResponse,
 	IHeadersResponse,
-} from "@/interfaces/Flows.js";
+} from "../interfaces/Flows.js";
 import {
 	CreateFlowSchema,
 	FlowIdSchema,
@@ -15,8 +16,7 @@ import {
 	type FlowJsonInput,
 	type UpdateFlowMetadataInput,
 	type UploadPublicKeyInput,
-} from "@/schemas/FlowsSchemas.js";
-import type { BlipTransport } from "../clients/BlipTransport.js";
+} from "../schemas/FlowsSchemas.js";
 import type { IBlipSuccessfulResponse } from "../types/BlipCommands.js";
 
 export class FlowsResources {

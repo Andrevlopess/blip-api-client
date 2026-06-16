@@ -1,11 +1,11 @@
-import { AttendantsResources } from "@/resources/attendants.js";
-import { BucketsResource } from "@/resources/buckets.js";
-import { ContactsResources } from "@/resources/contacts.js";
-import { MessagesResources } from "@/resources/messages.js";
-import { QueuesResources } from "@/resources/queues/queues.js";
+import { AttendantsResources } from "../resources/attendants.js";
+import { BucketsResource } from "../resources/buckets.js";
+import { ContactsResources } from "../resources/contacts.js";
+import { FlowsResources } from "../resources/flows.js";
+import { MessagesResources } from "../resources/messages.js";
+import { QueuesResources } from "../resources/queues/queues.js";
+import type { BlipTransportConfig } from "../types/BlipTransportConfig.js";
 import { BlipTransport } from "./BlipTransport.js";
-import { FlowsResources } from "@/resources/flows.js";
-import type { BlipTransportConfig } from "@/types/BlipTransportConfig.js";
 
 export class BlipClient {
 	private transport: BlipTransport;

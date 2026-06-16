@@ -40,10 +40,6 @@
 		"noUncheckedSideEffectImports": true,
 		"moduleDetection": "force",
 		"skipLibCheck": true,
-
-		"paths": {
-			"@/*": ["./src/*"]
-		}
 	},
-	"exclude": ["node_modules", "build", "src/examples/**"]
+	"exclude": ["node_modules", "build", "src/examples/**", "tests", "**/*.test.ts", "**/*.spec.ts", "vitest.config.ts"]
 }

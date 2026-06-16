@@ -1,4 +1,4 @@
-import z from "zod";
+import {z} from "zod";
 
 export const CreateOrUpdateAttendantSchema = z.object({
 	email: z.email(),
@@ -16,5 +16,5 @@ export const AttendantPermissionSchema = z.object({
     isActive: z.boolean(),
 });
 
-export type CreateOrUpdateAttendantData = z.infer<typeof CreateOrUpdateAttendantSchema>;
-export type AttendantPermissionData = z.infer<typeof AttendantPermissionSchema>;
+export type CreateOrUpdateAttendantInput = z.infer<typeof CreateOrUpdateAttendantSchema>;
+export type AttendantPermissionInput = z.infer<typeof AttendantPermissionSchema>;

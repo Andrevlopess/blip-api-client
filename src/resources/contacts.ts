@@ -1,7 +1,7 @@
-import type { BlipTransport } from "@/clients/BlipTransport.js";
-import { ContactFilterSchema, ContactIdentitySchema, ContactSchema, type Contact, type ContactFilter } from "@/schemas/ContactSchemas.js";
+import type { BlipTransport } from "../clients/BlipTransport.js";
+import { ContactFilterSchema, ContactIdentitySchema, ContactSchema, type Contact, type ContactFilter } from "../schemas/ContactSchemas.js";
+import { PaginationSchema, type Pagination } from "../schemas/PaginationSchema.js";
 import type { IBlipCursorCollectionResponse, IBlipSuccessfulResponse } from "../types/BlipCommands.js";
-import { PaginationSchema, type Pagination } from "@/schemas/PaginationSchema.js";
 
 interface IFindAllParams {
 	pagination?: Partial<Pagination>;

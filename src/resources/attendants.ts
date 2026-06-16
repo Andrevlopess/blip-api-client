@@ -1,14 +1,15 @@
+import z from "zod";
+import type { BlipTransport } from "../clients/BlipTransport.js";
+import type { Attendant, AttendantPermission } from "../interfaces/Attendant.js";
 import {
 	AttendantEmailSchema,
 	AttendantPermissionSchema,
 	AttendantQueuesSchema,
 	CreateOrUpdateAttendantSchema,
-	type CreateOrUpdateAttendantData,
-} from "@/schemas/AttendantSchemas.js";
-import { PaginationSchema, type Pagination } from "@/schemas/PaginationSchema.js";
-import z from "zod";
-import type { BlipTransport } from "../clients/BlipTransport.js";
-import type { Attendant, AttendantPermission, CreateAttendantPermission } from "../interfaces/Attendant.js";
+	type AttendantPermissionInput,
+	type CreateOrUpdateAttendantInput,
+} from "../schemas/AttendantSchemas.js";
+import { PaginationSchema, type Pagination } from "../schemas/PaginationSchema.js";
 import type { IBlipCollectionResponse, IBlipSuccessfulResponse } from "../types/BlipCommands.js";
 
 interface IFindAllParams {
@@ -61,8 +62,8 @@ export class AttendantsResources {
 		return resource.items[0] ?? null;
 	}
 
-	async createOrUpdate(data: CreateOrUpdateAttendantData): Promise<IBlipSuccessfulResponse> {
-		const parsed = CreateOrUpdateAttendantSchema.parse(data);
+	async createOrUpdate(input: CreateOrUpdateAttendantInput): Promise<IBlipSuccessfulResponse> {
+		const parsed = CreateOrUpdateAttendantSchema.parse(input);
 
 		const searchParams = {
 			userCulture: "pt",
@@ -112,7 +113,7 @@ export class AttendantsResources {
 	}
 	async setPermissions(
 		attendantEmail: string,
-		permissions: CreateAttendantPermission[],
+		permissions: AttendantPermissionInput[],
 	): Promise<IBlipSuccessfulResponse<IBlipCollectionResponse<AttendantPermission>>> {
 		const email = AttendantEmailSchema.parse(attendantEmail);
 		const validatedPermissions = z.array(AttendantPermissionSchema).parse(permissions);

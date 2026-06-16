@@ -1,4 +1,4 @@
-import type { FlowCategory } from "@/schemas/FlowsSchemas.js";
+import type { FlowCategory } from "../schemas/FlowsSchemas.js";
 
 export interface Flows {
 	name: string;

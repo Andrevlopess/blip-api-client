@@ -1,14 +1,14 @@
-import { PaginationSchema, type Pagination } from "@/schemas/PaginationSchema.js";
+import type { BlipTransport } from "../../clients/BlipTransport.js";
+import type { Queue } from "../../interfaces/Queue.js";
+import type { IBlipCollectionResponse, IBlipSuccessfulResponse } from "../../types/BlipCommands.js";
+import { PaginationSchema, type Pagination } from "../../schemas/PaginationSchema.js";
 import {
 	CreateQueueSchema,
 	QueueIdSchema,
 	UpdateQueueSchema,
-	type CreateQueueData,
-	type UpdateQueueData
-} from "@/schemas/QueueSchemas.js";
-import type { BlipTransport } from "../../clients/BlipTransport.js";
-import type { Queue } from "../../interfaces/Queue.js";
-import type { IBlipCollectionResponse, IBlipSuccessfulResponse } from "../../types/BlipCommands.js";
+	type CreateQueueInput,
+	type UpdateQueueInput,
+} from "../../schemas/QueueSchemas.js";
 import { QueuesRulesResources } from "./rules.js";
 import { QueueTagsResource } from "./tags.js";
 
@@ -46,8 +46,8 @@ export class QueuesResources {
 		return resource.items;
 	}
 
-	async set(data: CreateQueueData): Promise<Queue> {
-		const parsed = CreateQueueSchema.parse(data);
+	async set(input: CreateQueueInput): Promise<Queue> {
+		const parsed = CreateQueueSchema.parse(input);
 
 		const { resource } = await this.transport.sendCommand<Queue>({
 			method: "set",
@@ -63,8 +63,8 @@ export class QueuesResources {
 		return resource;
 	}
 
-	async update(data: UpdateQueueData): Promise<Queue> {
-		const parsed = UpdateQueueSchema.parse(data);
+	async update(input: UpdateQueueInput): Promise<Queue> {
+		const parsed = UpdateQueueSchema.parse(input);
 
 		const { resource } = await this.transport.sendCommand<Queue>({
 			method: "set",

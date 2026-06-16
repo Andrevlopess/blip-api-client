@@ -1,14 +1,14 @@
-import type { ThreadMessage } from "@/interfaces/Message.js";
-import { ContactIdentitySchema } from "@/schemas/ContactSchemas.js";
+import type { BlipTransport } from "../clients/BlipTransport.js";
+import type { ThreadMessage } from "../interfaces/Message.js";
+import { ContactIdentitySchema } from "../schemas/ContactSchemas.js";
 import {
 	SendEmailSchema,
 	SendMessageSchema,
 	type SendEmailData,
 	type SendMessageData,
-} from "@/schemas/MessagesSchemas.js";
-import type { BlipTransport } from "../clients/BlipTransport.js";
+} from "../schemas/MessagesSchemas.js";
+import { PaginationSchema, type Pagination } from "../schemas/PaginationSchema.js";
 import type { IBlipCollectionResponse } from "../types/BlipCommands.js";
-import { PaginationSchema, type Pagination } from "@/schemas/PaginationSchema.js";
 
 interface GetThreadsParams {
 	pagination: Partial<Pagination>;

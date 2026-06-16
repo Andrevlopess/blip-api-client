@@ -1,12 +1,12 @@
-import { PaginationSchema, type Pagination } from "@/schemas/PaginationSchema.js";
-import {
-    RoutingRuleSchema,
-    type RoutingRule
-} from "@/schemas/QueueSchemas.js";
 import z from "zod";
 import type { BlipTransport } from "../../clients/BlipTransport.js";
 import type { IQueueTag } from "../../interfaces/Queue.js";
 import type { IBlipCollectionResponse, IBlipSuccessfulResponse } from "../../types/BlipCommands.js";
+import { PaginationSchema, type Pagination } from "../../schemas/PaginationSchema.js";
+import {
+	RoutingRuleSchema,
+	type RoutingRuleInput,
+} from "../../schemas/QueueSchemas.js";
 interface IPaginationParams {
 	pagination?: Partial<Pagination>;
 }
@@ -36,8 +36,8 @@ export class QueuesRulesResources {
 		return resource.items ?? [];
 	}
 
-	async set(rule: RoutingRule): Promise<IBlipSuccessfulResponse> {
-		const parsed = RoutingRuleSchema.parse(rule);
+	async set(input: RoutingRuleInput): Promise<IBlipSuccessfulResponse> {
+		const parsed = RoutingRuleSchema.parse(input);
 
 		return await this.transport.sendCommand<IBlipSuccessfulResponse>({
 			method: "set",

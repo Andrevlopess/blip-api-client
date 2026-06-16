@@ -58,13 +58,13 @@ export const RoutingRuleSchema = z.object({
 	isActive: z.boolean(),
 	conditions: z.array(ConditionSchema),
 	operator: z.enum(["And", "Or"]),
-	priority: z.number().int(),
+	priority: z.number().int().optional(),
 	queueId: z.uuid(),
 });
 
-export type RoutingRule = z.infer<typeof RoutingRuleSchema>;
+export type RoutingRuleInput = z.infer<typeof RoutingRuleSchema>;
 
 export const QueueIdSchema = z.uuid();
 
-export type CreateQueueData = z.infer<typeof CreateQueueSchema>;
-export type UpdateQueueData = z.infer<typeof UpdateQueueSchema>;
+export type CreateQueueInput = z.infer<typeof CreateQueueSchema>;
+export type UpdateQueueInput = z.infer<typeof UpdateQueueSchema>;

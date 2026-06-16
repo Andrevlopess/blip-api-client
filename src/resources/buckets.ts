@@ -1,5 +1,5 @@
-import type { BlipTransport } from "@/clients/BlipTransport.js";
-import { DocumentKeySchema, DocumentSchema, type Document } from "@/schemas/BucketSchemas.js";
+import type { BlipTransport } from "../clients/BlipTransport.js";
+import { DocumentKeySchema, DocumentSchema, type Document } from "../schemas/BucketSchemas.js";
 import { type IBlipCollectionResponse, type IBlipGetResponse, type IBlipSuccessfulResponse } from "../types/BlipCommands.js";
 
 
