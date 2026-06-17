@@ -1,6 +1,7 @@
-# @andrevlopes/blip-api-client
-
 A JavaScript/TypeScript client for the [Blip](https://blip.ai) platform APIs. Provides a typed, ergonomic interface for managing Blip resources such as attendance queues, tickets, and WhatsApp Flows.
+
+## Docs
+See [Documentation](https://d5ejjjci5hzt3.cloudfront.net) 
 
 ## Installation
 
