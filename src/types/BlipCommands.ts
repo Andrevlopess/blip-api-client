@@ -57,7 +57,7 @@ export interface IBlipDeleteCommandBody {
 
 export interface IBlipWriteCommandBody {
 	to: string;
-	method: Extract<Method, "set">;
+	method: Extract<Method, "set" | "merge">;
 	type: string;
 	resource: Record<string, any> | string | Resource;
 	uri: string;

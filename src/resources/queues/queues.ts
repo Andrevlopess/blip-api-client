@@ -16,8 +16,31 @@ interface IPaginationParams {
 	pagination?: Partial<Pagination>;
 }
 
+/**
+ * Queue management operations.
+ *
+ * Create, update, delete, and list service queues.
+ * This resource also provides access to queue rules
+ * and queue tags.
+ *
+ * @category Resources
+ */
 export class QueuesResources {
+	/**
+	 * Queue rule management operations.
+	 *
+	 * Access queue routing and assignment rules.
+	 *
+	 * @group Subresources
+	 */
 	public readonly rules: QueuesRulesResources;
+	/**
+	 * Queue tag management operations.
+	 *
+	 * Manage tags associated with service queues.
+	 *
+	 * @group Subresources
+	 */
 	public readonly tags: QueueTagsResource;
 
 	constructor(private readonly transport: BlipTransport) {
@@ -25,7 +48,34 @@ export class QueuesResources {
 		this.tags = new QueueTagsResource(transport);
 	}
 
-	async findAll(params?: IPaginationParams): Promise<Queue[]> {
+	/**
+	 * Retrieves all queues.
+	 *
+	 * Results can be paginated using the `pagination`
+	 * parameter.
+	 *
+	 * @param params - Optional pagination settings.
+	 *
+	 * @returns A list of queues.
+	 *
+	 * @example
+	 * ```ts
+	 * const queues = await client.queues.getAll();
+	 * ```
+	 *
+	 * @example
+	 * ```ts
+	 * const queues = await client.queues.getAll({
+	 *   pagination: {
+	 *     skip: 0,
+	 *     take: 50
+	 *   }
+	 * });
+	 * ```
+	 *
+	 * @group Queues
+	 */
+	async getAll(params?: IPaginationParams): Promise<Queue[]> {
 		const searchParams: Record<string, string> = {
 			ascending: "true",
 		};
@@ -46,6 +96,23 @@ export class QueuesResources {
 		return resource.items;
 	}
 
+	/**
+	 * Creates a new queue.
+	 *
+	 * @param input - Queue creation data.
+	 *
+	 * @returns The created queue.
+	 *
+	 * @example
+	 * ```ts
+	 * const queue = await client.queues.set({
+	 *   name: "Support",
+	 *   isActive: true
+	 * });
+	 * ```
+	 *
+	 * @group Queues
+	 */
 	async set(input: CreateQueueInput): Promise<Queue> {
 		const parsed = CreateQueueSchema.parse(input);
 
@@ -63,6 +130,23 @@ export class QueuesResources {
 		return resource;
 	}
 
+	/**
+	 * Updates an existing queue.
+	 *
+	 * @param input - Queue update data.
+	 *
+	 * @returns The updated queue.
+	 *
+	 * @example
+	 * ```ts
+	 * const queue = await client.queues.update({
+	 *   id: "<uuid>",
+	 *   name: "Premium Support"
+	 * });
+	 * ```
+	 *
+	 * @group Queues
+	 */
 	async update(input: UpdateQueueInput): Promise<Queue> {
 		const parsed = UpdateQueueSchema.parse(input);
 
@@ -80,6 +164,20 @@ export class QueuesResources {
 		return resource;
 	}
 
+	/**
+	 * Deletes a queue.
+	 *
+	 * @param queueId - The queue identifier.
+	 *
+	 * @returns A successful response.
+	 *
+	 * @example
+	 * ```ts
+	 * await client.queues.delete("<uuid>");
+	 * ```
+	 *
+	 * @group Queues
+	 */
 	async delete(queueId: string): Promise<IBlipSuccessfulResponse> {
 		const id = QueueIdSchema.parse(queueId);
 

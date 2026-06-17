@@ -1,0 +1,29 @@
+{
+	"entryPoints": ["src/index.ts"],
+	"entryPointStrategy": "resolve",
+	"out": "docs",
+	"plugin": ["typedoc-github-theme"],
+
+	"tsconfig": "tsconfig.json",
+
+	"name": "blip-api-client",
+	"includeVersion": true,
+	"readme": "README.md",
+
+	"excludePrivate": true,
+	"excludeProtected": false,
+	"excludeExternals": true,
+
+	"visibilityFilters": {
+		"protected": false,
+		"private": false,
+		"inherited": true,
+		"external": false
+	},
+
+	"navigationLinks": {},
+
+	"categorizeByGroup": true,
+	"defaultCategory": "Other",
+	"categoryOrder": ["Resources", "Types", "Other"]
+}

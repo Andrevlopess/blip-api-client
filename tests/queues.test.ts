@@ -21,7 +21,7 @@ describe("QueuesResources", () => {
 		} as unknown as BlipTransport;
 	});
 
-	describe("findAll", () => {
+	describe("getAll", () => {
 		it("should fetch all queues without pagination", async () => {
 			const queues: Queue[] = [{ uniqueId: "1", name: "Support" } as Queue, { uniqueId: "2", name: "Sales" } as Queue];
 
@@ -33,7 +33,7 @@ describe("QueuesResources", () => {
 
 			const resource = new QueuesResources(transport);
 
-			const result = await resource.findAll();
+			const result = await resource.getAll();
 
 			expect(buildSearchParams).toHaveBeenCalledWith({
 				ascending: "true",
@@ -59,7 +59,7 @@ describe("QueuesResources", () => {
 
 			const resource = new QueuesResources(transport);
 
-			await resource.findAll({
+			await resource.getAll({
 				pagination: {
 					skip: 10,
 					take: 20,
@@ -88,7 +88,7 @@ describe("QueuesResources", () => {
 
 			const resource = new QueuesResources(transport);
 
-			await resource.findAll({
+			await resource.getAll({
 				pagination: {},
 			});
 

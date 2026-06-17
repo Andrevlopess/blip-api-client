@@ -29,3 +29,4 @@ export const ContactIdentitySchema = z.string().regex(/^[^@]+@[^@]+$/, "Invalid 
 
 export type Contact = z.infer<typeof ContactSchema>;
 export type ContactFilter = z.infer<typeof ContactFilterSchema>;
+export type ContactIdentity = z.infer<typeof ContactIdentitySchema>;

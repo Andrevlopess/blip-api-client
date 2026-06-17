@@ -1,7 +1,7 @@
 import z from "zod";
 import { PaginationSchema } from "./PaginationSchema.js";
 
-export const TicketIdSchema = z.uuid()
+export const TicketIdSchema = z.uuid();
 
 export const CustomerIdentitySchema = z.string().min(1);
 
@@ -56,9 +56,28 @@ export const UserTicketHistorySchema = z.object({
 	pagination: PaginationSchema.partial().optional(),
 });
 
+export const TicketCommentSchema = z.object({
+	authorEmail: z.string().min(1),
+	content: z.string().min(1),
+});
 
+export const GetTicketsHistoryFiltersSchema = z.object({
+	beginDate: z.iso.datetime({ offset: true }),
+	endDate: z.iso.datetime({ offset: true }),
+
+	agentIdentities: z.union([z.string(), z.array(z.string())]).optional(),
+	tags: z.union([z.string(), z.array(z.string())]).optional(),
+	teams: z.union([z.string(), z.array(z.string())]).optional(),
+	customerIdentities: z.union([z.string(), z.array(z.string())]).optional(),
+	ticketIds: z.union([z.number().positive(), z.array(z.number().positive())]).optional(),
+
+	includeIdentitiesNames: z.coerce.boolean().optional(),
+});
+
+export type GetTicketsHistoryFilters = z.infer<typeof GetTicketsHistoryFiltersSchema>;
+
+export type TicketCommentInput = z.infer<typeof TicketCommentSchema>;
 export type TicketId = z.infer<typeof TicketIdSchema>;
-export type CustomerIdentity = z.infer<typeof CustomerIdentitySchema>;
 export type CloseTicketStatus = z.infer<typeof CloseTicketStatusSchema>;
 
 export type CreateTicketInput = z.infer<typeof CreateTicketSchema>;

@@ -17,24 +17,28 @@ export const FlowCategorySchema = z.enum([
 export const CreateFlowSchema = z.object({
 	name: z.string().min(1),
 	categories: z.array(FlowCategorySchema).min(1),
-	endpointUri: z.url().optional()
+	endpointUri: z.url().optional(),
 });
-
-export const UpdateFlowMetadataSchema = CreateFlowSchema.partial()
-
+export const UpdateFlowMetadataSchema = CreateFlowSchema.partial().refine(
+	(data) => Object.values(data).some((v) => v !== undefined),
+	{ message: "At least one field must be provided" },
+);
 export const UploadPublicKeySchema = z.object({
 	businessPublicKey: z.string().min(1),
 });
 
-export const FlowJsonSchema = z.object({
-	screens: z.array(z.record(z.string(), z.unknown())).optional(),
-	version: z.string().optional(),
-})
-.loose();
+export const FlowJsonSchema = z
+	.object({
+		screens: z.array(z.record(z.string(), z.unknown())).optional(),
+		version: z.string().optional(),
+	})
+	.loose()
+	.refine((data) => Object.values(data).some((v) => v !== undefined), {
+		message: "JSON is invalid",
+	});
 
 export type FlowCategory = z.infer<typeof FlowCategorySchema>;
 export type CreateFlowInput = z.infer<typeof CreateFlowSchema>;
 export type UpdateFlowMetadataInput = z.infer<typeof UpdateFlowMetadataSchema>;
 export type UploadPublicKeyInput = z.infer<typeof UploadPublicKeySchema>;
 export type FlowJsonInput = z.infer<typeof FlowJsonSchema>;
-

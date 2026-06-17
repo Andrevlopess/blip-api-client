@@ -77,7 +77,7 @@ describe("QueueTagsResource", () => {
 		});
 	});
 
-	describe("findQueueTags", () => {
+	describe("getQueueTags", () => {
 		it("should fetch queue tags", async () => {
 			const tags = [
 				{
@@ -96,7 +96,7 @@ describe("QueueTagsResource", () => {
 
 			const resource = new QueueTagsResource(transport);
 
-			const result = await resource.findQueueTags(queueId);
+			const result = await resource.getQueueTags(queueId);
 
 			expect(buildSearchParams).toHaveBeenCalledWith({});
 
@@ -120,7 +120,7 @@ describe("QueueTagsResource", () => {
 
 			const resource = new QueueTagsResource(transport);
 
-			await resource.findQueueTags(queueId, {
+			await resource.getQueueTags(queueId, {
 				pagination: {
 					skip: 10,
 					take: 20,
@@ -148,7 +148,7 @@ describe("QueueTagsResource", () => {
 
 			const resource = new QueueTagsResource(transport);
 
-			await resource.findQueueTags(queueId, {
+			await resource.getQueueTags(queueId, {
 				pagination: {},
 			});
 
@@ -166,7 +166,7 @@ describe("QueueTagsResource", () => {
 			const resource = new QueueTagsResource(transport);
 
 			const queueId = "550e8400-e29b-41d4-a716-446655440000";
-			const result = await resource.findQueueTags(queueId);
+			const result = await resource.getQueueTags(queueId);
 
 			expect(result).toEqual([]);
 		});
@@ -174,7 +174,7 @@ describe("QueueTagsResource", () => {
 		it("should throw when queue id is invalid", async () => {
 			const resource = new QueueTagsResource(transport);
 
-			await expect(resource.findQueueTags("" as any)).rejects.toThrow();
+			await expect(resource.getQueueTags("" as any)).rejects.toThrow();
 
 			expect(sendCommand).not.toHaveBeenCalled();
 		});

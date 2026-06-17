@@ -42,6 +42,20 @@ export interface WaitingTicket {
 	sequentialId: number;
 	team: string;
 }
+export interface HistoryTicket {
+	agentIdentity: string;
+	agentName: string;
+	customerIdentity: string;
+	customerName: string;
+	hasAttendanceTimeSlaExceeded: boolean;
+	hasFirstResponseTimeSlaExceeded: boolean;
+	hasWaitingTimeSlaExceeded: boolean;
+	id: string;
+	sequentialId: number;
+	status: string;
+	team: string;
+	waitingTimeInSeconds: number;
+}
 export interface Ticket {
 	id: string;
 	sequentialId: number;
@@ -93,4 +107,10 @@ export interface TicketMetrics {
 	avgAttendanceTime: string;
 
 	ticketsPerAttendant: string;
+}
+export interface TicketComment {
+	authorIdentity: string;
+	content: string;
+	id: string;
+	storageDate: string;
 }

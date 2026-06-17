@@ -22,7 +22,7 @@ describe("AttendantsResources", () => {
 	const email = "john.doe@gmail.com";
 	const identity = `${encodeURIComponent(email)}@blip.ai`;
 
-	describe("findAll", () => {
+	describe("getAll", () => {
 		it("should fetch attendants", async () => {
 			const attendants = [
 				{
@@ -38,7 +38,7 @@ describe("AttendantsResources", () => {
 
 			const resource = new AttendantsResources(transport);
 
-			const result = await resource.findAll();
+			const result = await resource.getAll();
 
 			expect(buildSearchParams).toHaveBeenCalledWith({
 				includeStatus: "false",
@@ -64,7 +64,7 @@ describe("AttendantsResources", () => {
 
 			const resource = new AttendantsResources(transport);
 
-			await resource.findAll({
+			await resource.getAll({
 				pagination: {
 					skip: 10,
 					take: 20,
@@ -81,7 +81,7 @@ describe("AttendantsResources", () => {
 		});
 	});
 
-	describe("findByEmail", () => {
+	describe("getByEmail", () => {
 		it("should return attendant", async () => {
 			const attendant = {
 				identity: "john.doe@blip.ai",
@@ -95,7 +95,7 @@ describe("AttendantsResources", () => {
 
 			const resource = new AttendantsResources(transport);
 
-			const result = await resource.findByEmail(email);
+			const result = await resource.getByEmail(email);
 
 			expect(result).toEqual(attendant);
 		});
@@ -109,7 +109,7 @@ describe("AttendantsResources", () => {
 
 			const resource = new AttendantsResources(transport);
 
-			const result = await resource.findByEmail(email);
+			const result = await resource.getByEmail(email);
 
 			expect(result).toBeNull();
 		});
@@ -117,7 +117,7 @@ describe("AttendantsResources", () => {
 		it("should throw when email is invalid", async () => {
 			const resource = new AttendantsResources(transport);
 
-			await expect(resource.findByEmail("invalid email")).rejects.toBeInstanceOf(ZodError);
+			await expect(resource.getByEmail("invalid email")).rejects.toBeInstanceOf(ZodError);
 
 			expect(sendCommand).not.toHaveBeenCalled();
 		});
@@ -192,7 +192,7 @@ describe("AttendantsResources", () => {
 		});
 	});
 
-	describe("findPermissions", () => {
+	describe("getPermissions", () => {
 		it("should return permissions", async () => {
 			const permissions = [
 				{
@@ -208,7 +208,7 @@ describe("AttendantsResources", () => {
 
 			const resource = new AttendantsResources(transport);
 
-			const result = await resource.findPermissions(email);
+			const result = await resource.getPermissions(email);
 
 			expect(result).toEqual(permissions);
 		});
@@ -220,7 +220,7 @@ describe("AttendantsResources", () => {
 
 			const resource = new AttendantsResources(transport);
 
-			const result = await resource.findPermissions(email);
+			const result = await resource.getPermissions(email);
 
 			expect(result).toEqual([]);
 		});

@@ -8,4 +8,4 @@ export const DocumentSchema = z.object({
 
 export const DocumentKeySchema = z.string()
 
-export type Document = z.infer<typeof DocumentSchema>;
+export type DocumentInput = z.infer<typeof DocumentSchema>;

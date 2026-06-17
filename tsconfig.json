@@ -39,7 +39,16 @@
 		"isolatedModules": true,
 		"noUncheckedSideEffectImports": true,
 		"moduleDetection": "force",
-		"skipLibCheck": true,
+		"skipLibCheck": true
 	},
-	"exclude": ["node_modules", "build", "src/examples/**", "tests", "**/*.test.ts", "**/*.spec.ts", "vitest.config.ts"]
+	"exclude": [
+		"node_modules",
+		"build",
+		"src/examples/**",
+		"tests",
+		"**/*.test.ts",
+		"**/*.spec.ts",
+		"vitest.config.ts",
+		"usage"
+	]
 }

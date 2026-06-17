@@ -3,7 +3,6 @@ import { ZodError } from "zod";
 import { BlipTransport } from "../src/clients/BlipTransport";
 import { QueuesRulesResources } from "../src/resources/queues/rules";
 import { RoutingRuleInput } from "../src/schemas/QueueSchemas";
-import { randomUUID } from "node:crypto";
 
 describe("QueuesRulesResources", () => {
 	let transport: BlipTransport;
@@ -20,7 +19,7 @@ describe("QueuesRulesResources", () => {
 		} as unknown as BlipTransport;
 	});
 
-	describe("findAll", () => {
+	describe("getAll", () => {
 		it("should fetch all rules", async () => {
 			const items = [
 				{
@@ -37,7 +36,7 @@ describe("QueuesRulesResources", () => {
 
 			const resource = new QueuesRulesResources(transport);
 
-			const result = await resource.findAll("Sales");
+			const result = await resource.getAll("Sales");
 
 			expect(buildSearchParams).toHaveBeenCalledWith({});
 
@@ -61,7 +60,7 @@ describe("QueuesRulesResources", () => {
 
 			const resource = new QueuesRulesResources(transport);
 
-			await resource.findAll("Sales", {
+			await resource.getAll("Sales", {
 				pagination: {
 					skip: 10,
 					take: 20,
@@ -87,7 +86,7 @@ describe("QueuesRulesResources", () => {
 
 			const resource = new QueuesRulesResources(transport);
 
-			const result = await resource.findAll("Sales");
+			const result = await resource.getAll("Sales");
 
 			expect(result).toEqual([]);
 		});
@@ -101,7 +100,7 @@ describe("QueuesRulesResources", () => {
 
 			const resource = new QueuesRulesResources(transport);
 
-			await resource.findAll("Support Team");
+			await resource.getAll("Support Team");
 
 			expect(sendCommand).toHaveBeenCalledWith({
 				method: "get",
@@ -113,7 +112,7 @@ describe("QueuesRulesResources", () => {
 
 	describe("set", () => {
 		it("should create a rule with provided id", async () => {
-			const uuid = randomUUID();
+			const uuid = crypto.randomUUID();
 
 			const response = {
 				status: "success",

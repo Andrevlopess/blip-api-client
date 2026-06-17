@@ -7,10 +7,37 @@ interface IPaginationParams {
 	pagination?: Partial<Pagination>;
 }
 
-
+/**
+ * Queue tag management operations.
+ *
+ * Assign and retrieve tags associated with service queues.
+ *
+ * @category Resources
+ */
 export class QueueTagsResource {
 	constructor(private readonly transport: BlipTransport) {}
 
+	/**
+	 * Replaces the tags assigned to a queue.
+	 *
+	 * The provided list becomes the complete set of tags
+	 * associated with the queue.
+	 *
+	 * @param queueId - The queue identifier.
+	 * @param tags - The tags to associate with the queue.
+	 *
+	 * @returns A successful response.
+	 *
+	 * @example
+	 * ```ts
+	 * await client.queues.tags.setQueueTags(
+	 *   "68549036-5700-4ecd-a0f3-019b04b193b4",
+	 *   ["sales", "priority"]
+	 * );
+	 * ```
+	 *
+	 * @group Queue Tags
+	 */
 	async setQueueTags(queueId: string, tags: string[]): Promise<IBlipSuccessfulResponse> {
 		const id = QueueIdSchema.parse(queueId);
 		return await this.transport.sendCommand({
@@ -25,7 +52,40 @@ export class QueueTagsResource {
 		});
 	}
 
-	async findQueueTags(queueId: string, params?: IPaginationParams): Promise<IQueueTag[]> {
+	/**
+	 * Retrieves all tags associated with a queue.
+	 *
+	 * Results can be paginated using the `pagination`
+	 * parameter.
+	 *
+	 * @param queueId - The queue identifier.
+	 * @param params - Optional pagination settings.
+	 *
+	 * @returns A list of queue tags.
+	 *
+	 * @example
+	 * ```ts
+	 * const tags = await client.queues.tags.getQueueTags(
+	 *   "68549036-5700-4ecd-a0f3-019b04b193b4"
+	 * );
+	 * ```
+	 *
+	 * @example
+	 * ```ts
+	 * const tags = await client.queues.tags.getQueueTags(
+	 *   "68549036-5700-4ecd-a0f3-019b04b193b4",
+	 *   {
+	 *     pagination: {
+	 *       skip: 0,
+	 *       take: 50
+	 *     }
+	 *   }
+	 * );
+	 * ```
+	 *
+	 * @group Queue Tags
+	 */
+	async getQueueTags(queueId: string, params?: IPaginationParams): Promise<IQueueTag[]> {
 		const id = QueueIdSchema.parse(queueId);
 
 		const searchParams: Record<string, string> = {};

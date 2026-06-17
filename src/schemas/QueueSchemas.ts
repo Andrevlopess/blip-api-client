@@ -62,9 +62,9 @@ export const RoutingRuleSchema = z.object({
 	queueId: z.uuid(),
 });
 
-export type RoutingRuleInput = z.infer<typeof RoutingRuleSchema>;
 
 export const QueueIdSchema = z.uuid();
 
+export type RoutingRuleInput = z.infer<typeof RoutingRuleSchema>;
 export type CreateQueueInput = z.infer<typeof CreateQueueSchema>;
 export type UpdateQueueInput = z.infer<typeof UpdateQueueSchema>;

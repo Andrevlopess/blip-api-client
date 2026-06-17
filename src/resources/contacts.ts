@@ -3,16 +3,62 @@ import { ContactFilterSchema, ContactIdentitySchema, ContactSchema, type Contact
 import { PaginationSchema, type Pagination } from "../schemas/PaginationSchema.js";
 import type { IBlipCursorCollectionResponse, IBlipSuccessfulResponse } from "../types/BlipCommands.js";
 
-interface IFindAllParams {
+interface IGetAllParams {
 	pagination?: Partial<Pagination>;
 	filter?: ContactFilter;
 }
 
+/**
+ * Contact management operations.
+ *
+ * Create, update, retrieve, and delete contacts
+ * stored in the BLiP CRM.
+ *
+ * @category Resources
+ */
 export class ContactsResources {
 	constructor(private readonly transport: BlipTransport) {}
 
-	async findAll(params?: IFindAllParams): Promise<IBlipCursorCollectionResponse<Contact>> {
-
+	/**
+	 * Retrieves contacts using optional pagination and filtering.
+	 *
+	 * Results are returned using BLiP's cursor-based
+	 * pagination format.
+	 *
+	 * @param params - Optional filtering and pagination settings.
+	 *
+	 * @returns A cursor collection containing contacts and
+	 * pagination metadata.
+	 *
+	 * @example
+	 * ```ts
+	 * const contacts = await client.contacts.getAll();
+	 * ```
+	 *
+	 * @example
+	 * ```ts
+	 * const contacts = await client.contacts.getAll({
+	 *   pagination: {
+	 *     skip: 0,
+	 *     take: 20
+	 *   }
+	 * });
+	 * ```
+	 *
+	 * @example
+	 * ```ts
+	 * const contacts = await client.contacts.getAll({
+	 *   filter: {
+	 *     key: "name",
+	 *     comparator: "startsWith",
+	 *     value: "John"
+	 *   }
+	 * });
+	 * ```
+	 *
+	 * @group Contacts
+	 */
+	async getAll(params?: IGetAllParams): Promise<IBlipCursorCollectionResponse<Contact>> {
 		const searchParams: Record<string, string> = {};
 
 		if (params?.pagination) {
@@ -30,13 +76,31 @@ export class ContactsResources {
 		const { resource } = await this.transport.sendCommand<IBlipCursorCollectionResponse<Contact>>({
 			method: "get",
 			to: "postmaster@crm.msging.net",
-			uri: `/contacts-cursor?${this.transport.buildSearchParams(searchParams)}`,
+			uri: `/contacts-cursor${this.transport.buildSearchParams(searchParams)}`,
 		});
 
 		return resource;
 	}
 
-	async findByIdentity(contactIdentity: string): Promise<Contact | null> {
+	/**
+	 * Retrieves a contact by identity.
+	 *
+	 * @param contactIdentity - The contact identity
+	 * (for example, `user@wa.gw.msging.net`).
+	 *
+	 * @returns The contact if found, otherwise `null`.
+	 *
+	 * @example
+	 * ```ts
+	 * const contact =
+	 *   await client.contacts.getByIdentity(
+	 *     "user@wa.gw.msging.net"
+	 *   );
+	 * ```
+	 *
+	 * @group Contacts
+	 */
+	async getByIdentity(contactIdentity: string): Promise<Contact | null> {
 		const identity = ContactIdentitySchema.parse(contactIdentity);
 
 		const { resource } = await this.transport.sendCommand<Contact>({
@@ -48,6 +112,26 @@ export class ContactsResources {
 		return resource ?? null;
 	}
 
+	/**
+	 * Creates or updates a contact.
+	 *
+	 * If a contact with the same identity already exists,
+	 * its information will be updated.
+	 *
+	 * @param data - Contact data.
+	 *
+	 * @returns A successful response.
+	 *
+	 * @example
+	 * ```ts
+	 * await client.contacts.createOrUpdate({
+	 *   identity: "user@wa.gw.msging.net",
+	 *   name: "John Doe"
+	 * });
+	 * ```
+	 *
+	 * @group Contacts
+	 */
 	async createOrUpdate(data: Contact): Promise<IBlipSuccessfulResponse> {
 		const parsed = ContactSchema.parse(data);
 
@@ -60,6 +144,23 @@ export class ContactsResources {
 		});
 	}
 
+	/**
+	 * Deletes a contact.
+	 *
+	 * @param contactIdentity - The contact identity
+	 * (for example, `user@wa.gw.msging.net`).
+	 *
+	 * @returns A successful response.
+	 *
+	 * @example
+	 * ```ts
+	 * await client.contacts.delete(
+	 *   "user@wa.gw.msging.net"
+	 * );
+	 * ```
+	 *
+	 * @group Contacts
+	 */
 	async delete(contactIdentity: string): Promise<IBlipSuccessfulResponse> {
 		const identity = ContactIdentitySchema.parse(contactIdentity);
 

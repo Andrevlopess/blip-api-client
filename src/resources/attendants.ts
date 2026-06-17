@@ -17,10 +17,45 @@ interface IFindAllParams {
 	teams?: string[];
 }
 
+/**
+ * Attendant management operations.
+ *
+ * Create, update, delete, and manage attendants,
+ * including permissions and queue assignments.
+ *
+ * @category Resources
+ */
 export class AttendantsResources {
 	constructor(private readonly transport: BlipTransport) {}
 
-	async findAll(params?: IFindAllParams): Promise<Attendant[]> {
+	/**
+	 * Retrieves all attendants.
+	 *
+	 * Results can be filtered by teams and paginated.
+	 *
+	 * @param params - Optional filtering and pagination settings.
+	 *
+	 * @returns A list of attendants.
+	 *
+	 * @example
+	 * ```ts
+	 * const attendants = await client.attendants.getAll();
+	 * ```
+	 *
+	 * @example
+	 * ```ts
+	 * const attendants = await client.attendants.getAll({
+	 *   teams: ["Support"],
+	 *   pagination: {
+	 *     skip: 0,
+	 *     take: 50
+	 *   }
+	 * });
+	 * ```
+	 *
+	 * @group Attendants
+	 */
+	async getAll(params?: IFindAllParams): Promise<Attendant[]> {
 		const searchParams: Record<string, string> = {
 			includeStatus: "false",
 		};
@@ -43,8 +78,23 @@ export class AttendantsResources {
 
 		return resource.items;
 	}
-
-	async findByEmail(attendantEmail: string): Promise<Attendant | null> {
+	/**
+	 * Retrieves an attendant by email address.
+	 *
+	 * @param attendantEmail - The attendant email address.
+	 *
+	 * @returns The attendant if found, otherwise `null`.
+	 *
+	 * @example
+	 * ```ts
+	 * const attendant = await client.attendants.getByEmail(
+	 *   "agent@company.com"
+	 * );
+	 * ```
+	 *
+	 * @group Attendants
+	 */
+	async getByEmail(attendantEmail: string): Promise<Attendant | null> {
 		const email = AttendantEmailSchema.parse(attendantEmail);
 
 		const searchParams = {
@@ -62,6 +112,26 @@ export class AttendantsResources {
 		return resource.items[0] ?? null;
 	}
 
+	/**
+	 * Creates or updates an attendant.
+	 *
+	 * If an attendant with the provided email already exists,
+	 * its information will be updated.
+	 *
+	 * @param input - Attendant data.
+	 *
+	 * @returns A successful response.
+	 *
+	 * @example
+	 * ```ts
+	 * await client.attendants.createOrUpdate({
+	 *   email: "agent@company.com",
+	 *   fullName: "John Doe"
+	 * });
+	 * ```
+	 *
+	 * @group Attendants
+	 */
 	async createOrUpdate(input: CreateOrUpdateAttendantInput): Promise<IBlipSuccessfulResponse> {
 		const parsed = CreateOrUpdateAttendantSchema.parse(input);
 
@@ -86,6 +156,22 @@ export class AttendantsResources {
 		});
 	}
 
+	/**
+	 * Deletes an attendant.
+	 *
+	 * @param attendantEmail - The attendant email address.
+	 *
+	 * @returns A successful response.
+	 *
+	 * @example
+	 * ```ts
+	 * await client.attendants.delete(
+	 *   "agent@company.com"
+	 * );
+	 * ```
+	 *
+	 * @group Attendants
+	 */
 	async delete(attendantEmail: string): Promise<IBlipSuccessfulResponse> {
 		const email = AttendantEmailSchema.parse(attendantEmail);
 
@@ -98,7 +184,24 @@ export class AttendantsResources {
 		});
 	}
 
-	async findPermissions(attendantEmail: string): Promise<AttendantPermission[]> {
+	/**
+	 * Retrieves the permissions assigned to an attendant.
+	 *
+	 * @param attendantEmail - The attendant email address.
+	 *
+	 * @returns A list of permissions.
+	 *
+	 * @example
+	 * ```ts
+	 * const permissions =
+	 *   await client.attendants.getPermissions(
+	 *     "agent@company.com"
+	 *   );
+	 * ```
+	 *
+	 * @group Permissions
+	 */
+	async getPermissions(attendantEmail: string): Promise<AttendantPermission[]> {
 		const email = AttendantEmailSchema.parse(attendantEmail);
 
 		const identity = `${encodeURIComponent(encodeURIComponent(email))}@blip.ai`;
@@ -111,6 +214,28 @@ export class AttendantsResources {
 
 		return resource.items ?? [];
 	}
+
+	/**
+	 * Replaces the permissions assigned to an attendant.
+	 *
+	 * @param attendantEmail - The attendant email address.
+	 * @param permissions - The permissions to assign.
+	 *
+	 * @returns A successful response containing the assigned permissions.
+	 *
+	 * @example
+	 * ```ts
+	 *	await client.attendants.setPermissions("andre.lopes@skeps.com.br", [
+	 *	{
+	 *		ownerIdentity: "testeia157@msging.net",
+	 *		name: "canReadFullThreadMessages",
+	 *		isActive: true,
+	 *	},
+	 *]);
+	 * ```
+	 *
+	 * @group Permissions
+	 */
 	async setPermissions(
 		attendantEmail: string,
 		permissions: AttendantPermissionInput[],
@@ -132,6 +257,27 @@ export class AttendantsResources {
 		});
 	}
 
+	/**
+	 * Assigns queues to an attendant.
+	 *
+	 * The provided queue list replaces the attendant's
+	 * current queue assignments.
+	 *
+	 * @param attendantEmail - The attendant email address.
+	 * @param queues - Queue names to assign.
+	 *
+	 * @returns A successful response.
+	 *
+	 * @example
+	 * ```ts
+	 * await client.attendants.setQueuesByEmail(
+	 *   "agent@company.com",
+	 *   ["Support", "Sales"]
+	 * );
+	 * ```
+	 *
+	 * @group Queue Assignments
+	 */
 	async setQueuesByEmail(attendantEmail: string, queues: string[]): Promise<IBlipSuccessfulResponse> {
 		const email = AttendantEmailSchema.parse(attendantEmail);
 		const teams = AttendantQueuesSchema.parse(queues);

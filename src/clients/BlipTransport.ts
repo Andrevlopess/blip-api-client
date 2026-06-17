@@ -26,18 +26,6 @@ export class BlipTransport {
 		api.defaults.headers.common["Content-Type"] = "application/json";
 	}
 
-	setConfig({ tenant, apiKey, maxConcurrentRequests }: Partial<BlipTransportConfig>) {
-		if (tenant) this.tenant = tenant;
-		if (apiKey) {
-			this.apiKey = apiKey.startsWith("Key ") ? apiKey : `Key ${apiKey}`;
-			api.defaults.headers.common["Authorization"] = this.apiKey;
-		}
-		if (maxConcurrentRequests) {
-			this.maxConcurrentRequests = maxConcurrentRequests;
-			this.limit = pLimit(this.maxConcurrentRequests);
-		}
-	}
-
 	async sendCommand<T = never>(body: IBlipCommandBody): Promise<IBlipSuccessfulResponse<T>> {
 		try {
 			const id = crypto.randomUUID();
@@ -78,8 +66,18 @@ export class BlipTransport {
 		});
 	}
 
-	buildSearchParams(params: string | string[][] | Record<string, string> | URLSearchParams) {
-		if (!Object.keys(params).length) return "";
-		return `?${new URLSearchParams(params).toString().replace(/\+/g, "%20")}`;
+	buildSearchParams(params: string | string[][] | Record<string, unknown> | URLSearchParams) {
+		if (typeof params !== "object" || !Object.keys(params).length) {
+			return "";
+		}
+
+		const searchParams = Object.fromEntries(
+			Object.entries(params).map(([key, value]) => [
+				key,
+				value == null ? "" : Array.isArray(value) ? value.join(",") : String(value),
+			]),
+		);
+
+		return `?${new URLSearchParams(searchParams).toString().replace(/\+/g, "%20")}`;
 	}
 }

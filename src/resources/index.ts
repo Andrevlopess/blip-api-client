@@ -1,0 +1,10 @@
+export type { BucketsResource } from "./buckets.js";
+export type { TicketsResources } from "./tickets.js";
+export type { MessagesResources } from "./messages.js";
+export type { FlowsResources } from "./flows.js";
+export type { AttendantsResources } from "./attendants.js";
+export type { QueuesRulesResources } from "./queues/rules.js";
+export type { QueueTagsResource } from "./queues/tags.js";
+export type { QueuesResources } from "./queues/queues.js";
+export type { DeskResources } from "./desk.js";
+export type { ContactsResources } from "./contacts.js";
