@@ -11,12 +11,12 @@ import { PaginationSchema, type Pagination } from "../schemas/PaginationSchema.j
 import type { IBlipCollectionResponse } from "../types/BlipCommands.js";
 
 interface Filters {
-	teams: string | string[];
-	agentIdentities: string | string[];
-	customerIdentities: string | string[];
+	teams?: string | string[];
+	agentIdentities?: string | string[];
+	customerIdentities?: string | string[];
 }
 interface GetTicketsFilters extends Filters {
-	ticketSequentialId: number | number[];
+	ticketSequentialId?: number | number[];
 }
 
 interface GetAllTicketsParams {
@@ -24,6 +24,10 @@ interface GetAllTicketsParams {
 	filters: Partial<GetTicketsFilters>;
 	calculateSla: boolean;
 	refreshCache: boolean;
+}
+interface GetMetricsParams {
+	pagination: Pagination;
+	filters: Filters;
 }
 
 /**
@@ -119,7 +123,7 @@ export class DeskResources {
 			version: "2",
 			calculateSla: calculateSla,
 			refreshCache: refreshCache,
-			...(filters),
+			...filters,
 		};
 
 		if (pagination) {
@@ -254,11 +258,11 @@ export class DeskResources {
 	 *
 	 * @group Metrics
 	 */
-	async getAttendantsMetrics(params?: { pagination: Pagination; filters: Filters }): Promise<AttendantMetric[]> {
+	async getAttendantsMetrics(params?: Partial<GetMetricsParams>): Promise<AttendantMetric[]> {
 		const searchParams: Record<string, unknown> = {
 			refreshCache: "true",
 			version: "2",
-			...params?.filters
+			...params?.filters,
 		};
 
 		if (params?.pagination) {
@@ -293,7 +297,7 @@ export class DeskResources {
 	 *
 	 * @group Metrics
 	 */
-	async getQueuesMetrics(params?: { pagination: Pagination; filters: Filters }): Promise<QueuesMetrics[]> {
+	async getQueuesMetrics(params?: Partial<GetMetricsParams>): Promise<QueuesMetrics[]> {
 		const searchParams: Record<string, unknown> = {
 			refreshCache: "true",
 			version: "2",
@@ -333,7 +337,7 @@ export class DeskResources {
 	 *
 	 * @group Metrics
 	 */
-	async getTagsMetrics(params?: { pagination: Pagination; filters: Filters }): Promise<TagsMetrics[]> {
+	async getTagsMetrics(params?: Partial<GetMetricsParams>): Promise<TagsMetrics[]> {
 		const searchParams: Record<string, unknown> = {
 			refreshCache: "true",
 			version: "2",

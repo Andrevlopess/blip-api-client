@@ -5,12 +5,8 @@ const client = new BlipClient({
 	apiKey: "dGVzdGVpYTE1NzpVbUEzN2p5WDA2Zk9ZS2dHRUJkUQ==",
 });
 
-const tickets = await client.desk.getAllOpenTickets({
-	filters: {
-		teams: ["Default", "teste"],
-		agentIdentities: ["andre.lopes%40skeps.com.br@blip.ai"],
-		ticketSequentialId: [2756]
-	},
-});
+const res = await client.media.getUploadUrl()
 
-console.log(tickets); 
+const res2 = await client.media.refreshExpiredUrl(res)
+
+console.log(res, res2);

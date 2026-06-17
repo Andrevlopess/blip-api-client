@@ -8,3 +8,5 @@ export type { QueueTagsResource } from "./queues/tags.js";
 export type { QueuesResources } from "./queues/queues.js";
 export type { DeskResources } from "./desk.js";
 export type { ContactsResources } from "./contacts.js";
+export type { TrackingResources } from "./trackings.js";
+export type { MediaResources } from "./media.js";

@@ -3,9 +3,11 @@ import { BucketsResource } from "../resources/buckets.js";
 import { ContactsResources } from "../resources/contacts.js";
 import { DeskResources } from "../resources/desk.js";
 import { FlowsResources } from "../resources/flows.js";
+import { MediaResources } from "../resources/media.js";
 import { MessagesResources } from "../resources/messages.js";
 import { QueuesResources } from "../resources/queues/queues.js";
 import { TicketsResources } from "../resources/tickets.js";
+import { TrackingResources } from "../resources/trackings.js";
 import type { IBlipCommandBody, IBlipSuccessfulResponse } from "../types/BlipCommands.js";
 import type { BlipTransportConfig } from "../types/BlipTransportConfig.js";
 import { BlipTransport } from "./BlipTransport.js";
@@ -47,6 +49,12 @@ export class BlipClient {
 	/** Interact with the Blip Desk (human handoff) features. */
 	public readonly desk: DeskResources;
 
+	/** Interact with your trackings */
+	public readonly trackings: TrackingResources;
+
+	/** Create presigned urls to upload content in a pulic url */
+	public readonly media: MediaResources;
+
 	/**
 	 * @param config - Transport configuration including `identifier` and `accessKey`.
 	 */
@@ -61,6 +69,8 @@ export class BlipClient {
 		this.tickets = new TicketsResources(this.transport);
 		this.flows = new FlowsResources(this.transport);
 		this.desk = new DeskResources(this.transport);
+		this.trackings = new TrackingResources(this.transport);
+		this.media = new MediaResources(this.transport);
 	}
 
 	async sendCustomCommand<T>(body: IBlipCommandBody): Promise<IBlipSuccessfulResponse<T>> {
