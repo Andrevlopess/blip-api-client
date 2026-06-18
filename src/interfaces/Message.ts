@@ -1,6 +1,8 @@
+export type Direction = "sent" | "received";
+
 export type ThreadMessage = {
 	id: string;
-	direction: "sent" | "received";
+	direction: Direction;
 	type: string;
 	content: string;
 	date: string;
@@ -9,7 +11,7 @@ export type ThreadMessage = {
 }
 export type TicketThreadMessage = {
 	id: string;
-	direction: string;
+	direction: Direction;
 	type: string;
 	content: {
 		sequentialId: number;

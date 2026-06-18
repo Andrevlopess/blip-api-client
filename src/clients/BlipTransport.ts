@@ -31,11 +31,11 @@ export class BlipTransport {
 			const id = crypto.randomUUID();
 
 			return this.limit(async () => {
-				console.log(`${body.method} command to ${body.uri}`);
+				// console.log(`${body.method} command to ${body.uri}`);
 
-				if (body.method !== "get") {
-					console.log("body: ", body);
-				}
+				// if (body.method !== "get") {
+				// 	console.log("body: ", body);
+				// }
 
 				const { data } = await api.post<BlipCommandResponse<T>>(`https://${this.tenant}.http.msging.net/commands`, {
 					id,

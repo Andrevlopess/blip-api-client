@@ -31,4 +31,4 @@ export type {
 export type { CreateOrUpdateAttendantInput, AttendantPermissionInput } from "../schemas/AttendantSchemas.js";
 export type { RoutingRuleInput, CreateQueueInput, UpdateQueueInput } from "../schemas/QueueSchemas.js";
 export type { CreateTrackingInput, EventCounter, EventCountersFilters } from "../schemas/TrackingSchemas.js";
-export type { ThreadMessage, MergedThreadMessage, TicketThreadMessage } from "../interfaces/Message.js";
+export type { ThreadMessage, MergedThreadMessage, TicketThreadMessage, Direction } from "../interfaces/Message.js";
