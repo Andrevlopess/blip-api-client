@@ -28,23 +28,23 @@ export class BlipClient {
 	/**
 	 *  Manage attendants in your chatbot.
 	 *  Available methods:
-	 * - getAll
-	 * - getByEmail
-	 * - createOrUpdate
-	 * - delete
-	 * - getPermissions
-	 * - setPermissions
-	 * - setQueuesByEmail
+	 * - {@link AttendantsResources.getAll | getAll}
+	 * - {@link AttendantsResources.getByEmail | getByEmail}
+	 * - {@link AttendantsResources.createOrUpdate | createOrUpdate}
+	 * - {@link AttendantsResources.delete | delete}
+	 * - {@link AttendantsResources.getPermissions | getPermissions}
+	 * - {@link AttendantsResources.setPermissions | setPermissions}
+	 * - {@link AttendantsResources.setQueuesByEmail | setQueuesByEmail}
 	 */
 	public readonly attendants: AttendantsResources;
 
 	/** Manage queue assignments and routing.
 	 *
 	 * Available methods:
-	 * - getAll
-	 * - set
-	 * - update
-	 * - delete
+	 * - {@link QueuesResources.getAll | getAll}
+	 * - {@link QueuesResources.set | set}
+	 * - {@link QueuesResources.update | update}
+	 * - {@link QueuesResources.delete | delete}
 	 *
 	 */
 	public readonly queues: QueuesResources;
@@ -52,92 +52,92 @@ export class BlipClient {
 	/** Create, update, and delete contacts.
 	 *
 	 * Available methods:
-	 * - getAll
-	 * - getByIdentity
-	 * - createOrUpdate
-	 * - delete
+	 * - {@link ContactsResources.getAll | getAll}
+	 * - {@link ContactsResources.getByIdentity | getByIdentity}
+	 * - {@link ContactsResources.createOrUpdate | createOrUpdate}
+	 * - {@link ContactsResources.delete | delete}
 	 */
 	public readonly contacts: ContactsResources;
 
 	/** Read and write documents in the key-value bucket store.
 	 *
 	 * Available methods:
-	 * - getDocumentCollection
-	 * - getDocument
-	 * - setDocument
-	 * - deleteDocument
+	 * - {@link BucketsResource.getDocumentCollection | getDocumentCollection}
+	 * - {@link BucketsResource.getDocument | getDocument}
+	 * - {@link BucketsResource.setDocument | setDocument}
+	 * - {@link BucketsResource.deleteDocument | deleteDocument}
 	 */
 	public readonly buckets: BucketsResource;
 
 	/** Send and query messages.
 	 *
 	 * Available methods:
-	 * - sendMessage
-	 * - sendEmail
-	 * - getThreads
+	 * - {@link MessagesResources.sendMessage | sendMessage}
+	 * - {@link MessagesResources.sendEmail | sendEmail}
+	 * - {@link MessagesResources.getThreads | getThreads}
+	 * - {@link MessagesResources.getMergedThreads | getMergedThreads}
 	 */
 	public readonly messages: MessagesResources;
 
 	/** Access and publish chatbot flows.
 	 *
-	 *  Available methods:
-	 * - getAll
-	 * - getById
-	 * - create
-	 * - updateMetadata
-	 * - getFlowJson
-	 * - updateFlowJson
-	 * - publish
-	 * - deprecate
-	 * - uploadPublicKey
-	 * - getUploadedPublicKey
+	 * Available methods:
+	 * - {@link FlowsResources.getAll | getAll}
+	 * - {@link FlowsResources.getById | getById}
+	 * - {@link FlowsResources.create | create}
+	 * - {@link FlowsResources.updateMetadata | updateMetadata}
+	 * - {@link FlowsResources.getFlowJson | getFlowJson}
+	 * - {@link FlowsResources.updateFlowJson | updateFlowJson}
+	 * - {@link FlowsResources.publish | publish}
+	 * - {@link FlowsResources.deprecate | deprecate}
+	 * - {@link FlowsResources.uploadPublicKey | uploadPublicKey}
+	 * - {@link FlowsResources.getUploadedPublicKey | getUploadedPublicKey}
 	 */
 	public readonly flows: FlowsResources;
 
 	/** Manage support tickets.
 	 *
 	 * Available methods:
-	 * - create
-	 * - findById
-	 * - transfer
-	 * - close
-	 * - setTags
-	 * - getHistory
-	 * - comment
-	 * - getContactComments
+	 * - {@link TicketsResources.create | create}
+	 * - {@link TicketsResources.findById | findById}
+	 * - {@link TicketsResources.transfer | transfer}
+	 * - {@link TicketsResources.close | close}
+	 * - {@link TicketsResources.setTags | setTags}
+	 * - {@link TicketsResources.getHistory | getHistory}
+	 * - {@link TicketsResources.comment | comment}
+	 * - {@link TicketsResources.getContactComments | getContactComments}
 	 */
 	public readonly tickets: TicketsResources;
 
 	/** Interact with the Blip Desk (human handoff) features.
 	 *
 	 * Available methods:
-	 * - getAllOpenTickets
-	 * - getAllWaitingTickets
-	 * - getTicketSummary
-	 * - getTicketMetrics
-	 * - getAttendantsStatusMetrics
-	 * - getAttendantsMetrics
-	 * - getQueuesMetrics
-	 * - getTagsMetrics
+	 * - {@link DeskResources.getAllOpenTickets | getAllOpenTickets}
+	 * - {@link DeskResources.getAllWaitingTickets | getAllWaitingTickets}
+	 * - {@link DeskResources.getTicketSummary | getTicketSummary}
+	 * - {@link DeskResources.getTicketMetrics | getTicketMetrics}
+	 * - {@link DeskResources.getAttendantsStatusMetrics | getAttendantsStatusMetrics}
+	 * - {@link DeskResources.getAttendantsMetrics | getAttendantsMetrics}
+	 * - {@link DeskResources.getQueuesMetrics | getQueuesMetrics}
+	 * - {@link DeskResources.getTagsMetrics | getTagsMetrics}
 	 */
 	public readonly desk: DeskResources;
 
-	/** Interact with your trackings
+	/** Interact with your trackings.
 	 *
-	 *  Available methods:
-	 * - create
-	 * - getCategories
-	 * - getCategoryCounters
-	 * - getEventDetails
-	 *
+	 * Available methods:
+	 * - {@link TrackingResources.create | create}
+	 * - {@link TrackingResources.getCategories | getCategories}
+	 * - {@link TrackingResources.getCategoryCounters | getCategoryCounters}
+	 * - {@link TrackingResources.getEventDetails | getEventDetails}
 	 */
 	public readonly trackings: TrackingResources;
 
-	/** Create presigned urls to upload content in a pulic url
+	/** Create presigned URLs to upload content to a public URL.
 	 *
 	 * Available methods:
-	 * - getUploadUrl
-	 * - refreshExpiredUrl
+	 * - {@link MediaResources.getUploadUrl | getUploadUrl}
+	 * - {@link MediaResources.refreshExpiredUrl | refreshExpiredUrl}
 	 */
 	public readonly media: MediaResources;
 
