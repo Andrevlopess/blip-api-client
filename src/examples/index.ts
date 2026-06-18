@@ -2,11 +2,15 @@ import { BlipClient } from "../clients/BlipClient.js";
 
 const client = new BlipClient({
 	tenant: "wlck",
-	apiKey: "dGVzdGVpYTE1NzpVbUEzN2p5WDA2Zk9ZS2dHRUJkUQ==",
+	apiKey: process.env.API_KEY,
 });
 
-const res = await client.media.getUploadUrl()
+const res = await client.messages.getMergedThreads("5511954291628@wa.gw.msging.net", {
+	pagination: {
+		take: 3,
+		storageDate: "2026-06-18T19:49:16.178Z",
+	},
+	direction: 'desc',
+});
 
-const res2 = await client.media.refreshExpiredUrl(res)
-
-console.log(res, res2);
+console.log(res);

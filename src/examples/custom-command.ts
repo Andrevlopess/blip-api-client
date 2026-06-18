@@ -2,7 +2,7 @@ import { BlipClient } from "../clients/BlipClient.js";
 
 const client = new BlipClient({
 	tenant: "wlck",
-	apiKey: "dGVzdGVpYTE1NzpVbUEzN2p5WDA2Zk9ZS2dHRUJkUQ==",
+	apiKey: process.env.API_KEY,
 });
 
 interface MyCustomType {

@@ -1,5 +1,5 @@
 import type { BlipTransport } from "../clients/BlipTransport.js";
-import type { ThreadMessage } from "../interfaces/Message.js";
+import type { MergedThreadMessage, ThreadMessage } from "../interfaces/Message.js";
 import { ContactIdentitySchema } from "../schemas/ContactSchemas.js";
 import {
 	SendEmailSchema,
@@ -10,8 +10,13 @@ import {
 import { PaginationSchema, type Pagination } from "../schemas/PaginationSchema.js";
 import type { IBlipCollectionResponse } from "../types/BlipCommands.js";
 
-interface GetThreadsParams {
+export interface GetThreadsParams {
 	pagination: Partial<Pagination>;
+}
+export interface GetMergedThreadsParams {
+	pagination?: Pick<Pagination, "take"> & { storageDate?: string };
+	direction?: "asc" | "desc";
+	getFromOriginator?: boolean;
 }
 
 /**
@@ -160,6 +165,55 @@ export class MessagesResources {
 			method: "get",
 			to: "postmaster@msging.net",
 			uri: `/threads/${identity}${this.transport.buildSearchParams(searchParams)}`,
+		});
+
+		return resource.items;
+	}
+
+	/**
+	 * Retrieves merged thread messages for a given contact identity.
+	 *
+	 * Merges threads from multiple channels into a single unified conversation view,
+	 * with support for pagination, ordering, and media refresh.
+	 *
+	 * @param contactIdentity - The contact identity string to fetch threads for (validated against `ContactIdentitySchema`).
+	 * @param params - Optional parameters to control the query behavior.
+	 * @param params.pagination - Pagination options for the result set.
+	 * @param params.pagination.take - Number of messages to retrieve (defaults to `20`).
+	 * @param params.pagination.storageDate - Cursor date for paginating through older messages.
+	 * @param params.direction - Sort order of the returned messages. Defaults to descending if omitted.
+	 * @param params.getFromOriginator - Whether to retrieve messages from the originator's perspective.
+	 *
+	 * @returns A promise that resolves to an array of {@link MergedThreadMessage}.
+	 *
+	 * @throws {ZodError} If `contactIdentity` does not satisfy `ContactIdentitySchema`.
+	 *
+	 * @example
+	 * const messages = await client.getMergedThreads("user123@msging.net", {
+	 *   pagination: { take: 10, storageDate: "2024-01-15T10:00:00Z" },
+	 *   direction: "asc"
+	 * });
+	 * @group Messages
+	 */
+	async getMergedThreads(contactIdentity: string, params?: GetMergedThreadsParams): Promise<MergedThreadMessage[]> {
+		const identity = ContactIdentitySchema.parse(contactIdentity);
+
+		const searchParams: Record<string, unknown> = {
+			refreshExpiredMedia: true,
+			...params,
+		};
+
+		if (params?.pagination) {
+			const { take = 20, storageDate } = params.pagination;
+
+			searchParams.$take = take;
+			if (storageDate) searchParams.storageDate = storageDate;
+		}
+
+		const { resource } = await this.transport.sendCommand<IBlipCollectionResponse<MergedThreadMessage>>({
+			method: "get",
+			to: "postmaster@msging.net",
+			uri: `/threads-merged/${identity}${this.transport.buildSearchParams(searchParams)}`,
 		});
 
 		return resource.items;
