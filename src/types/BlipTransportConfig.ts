@@ -36,5 +36,5 @@ export interface BlipTransportConfig {
 	 * @default 10
 	 * @example 5
 	 */
-	maxConcurrentRequests?: number;
+	maxConcurrentRequests?: number | undefined;
 }

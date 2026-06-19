@@ -2,7 +2,7 @@ import { BlipClient } from "../clients/BlipClient.js";
 
 const client = new BlipClient({
 	tenant: "wlck",
-	apiKey: process.env.API_KEY,
+	apiKey: process.env.API_KEY ?? "",
 });
 
 const permission = await client.attendants.setPermissions("andre.lopes@skeps.com.br", [

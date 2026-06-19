@@ -14,6 +14,7 @@ export class BlipTransport {
 	private apiKey: string;
 	private maxConcurrentRequests: number;
 	private limit: LimitFunction;
+	private isProduction: boolean;
 
 	constructor({ apiKey, tenant, maxConcurrentRequests = 10 }: BlipTransportConfig) {
 		this.tenant = tenant;
@@ -24,6 +25,7 @@ export class BlipTransport {
 
 		api.defaults.headers.common["Authorization"] = this.apiKey;
 		api.defaults.headers.common["Content-Type"] = "application/json";
+		this.isProduction = process.env.NODE_ENV === "production";
 	}
 
 	async sendCommand<T = never>(body: IBlipCommandBody): Promise<IBlipSuccessfulResponse<T>> {
@@ -31,11 +33,14 @@ export class BlipTransport {
 			const id = crypto.randomUUID();
 
 			return this.limit(async () => {
-				// console.log(`${body.method} command to ${body.uri}`);
+				
+				if (!this.isProduction) {
+					console.log(`${body.method} command to ${body.uri}`);
 
-				// if (body.method !== "get") {
-				// 	console.log("body: ", body);
-				// }
+					if (body.method !== "get") {
+						console.log("body: ", body);
+					}
+				}
 
 				const { data } = await api.post<BlipCommandResponse<T>>(`https://${this.tenant}.http.msging.net/commands`, {
 					id,

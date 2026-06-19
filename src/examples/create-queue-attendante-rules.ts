@@ -2,7 +2,7 @@ import { BlipClient } from "../clients/BlipClient.js";
 
 const client = new BlipClient({
 	tenant: "wlck",
-	apiKey: process.env.API_KEY,
+	apiKey: process.env.API_KEY ?? "",
 });
 
 const queues = await client.queues.getAll();
@@ -30,3 +30,4 @@ const responses = await Promise.all(
 
 const rules = await client.queues.rules.getAll("Default");
 
+console.log({ responses, rules });

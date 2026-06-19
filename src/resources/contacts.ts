@@ -59,13 +59,13 @@ export class ContactsResources {
 	 * @group Contacts
 	 */
 	async getAll(params?: IGetAllParams): Promise<IBlipCursorCollectionResponse<Contact>> {
-		const searchParams: Record<string, string> = {};
+		const searchParams: Record<string, unknown> = {};
 
 		if (params?.pagination) {
 			const { skip = 0, take = 20 } = PaginationSchema.parse(params.pagination);
 
-			searchParams.$skip = String(skip);
-			searchParams.$take = String(take);
+			searchParams.$skip = skip;
+			searchParams.$take = take;
 		}
 
 		if (params?.filter) {

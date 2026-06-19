@@ -10,3 +10,4 @@ export type { DeskResources } from "./desk.js";
 export type { ContactsResources } from "./contacts.js";
 export type { TrackingResources } from "./trackings.js";
 export type { MediaResources } from "./media.js";
+export type { CampaignResources } from "./campaigns.js";

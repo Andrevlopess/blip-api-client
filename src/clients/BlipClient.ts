@@ -1,5 +1,6 @@
 import { AttendantsResources } from "../resources/attendants.js";
 import { BucketsResource } from "../resources/buckets.js";
+import { CampaignResources } from "../resources/campaigns.js";
 import { ContactsResources } from "../resources/contacts.js";
 import { DeskResources } from "../resources/desk.js";
 import { FlowsResources } from "../resources/flows.js";
@@ -8,6 +9,7 @@ import { MessagesResources } from "../resources/messages.js";
 import { QueuesResources } from "../resources/queues/queues.js";
 import { TicketsResources } from "../resources/tickets.js";
 import { TrackingResources } from "../resources/trackings.js";
+import { TransportConfigSchema } from "../schemas/TransportConfigSchema.js";
 import type { IBlipCommandBody, IBlipSuccessfulResponse } from "../types/BlipCommands.js";
 import type { BlipTransportConfig } from "../types/BlipTransportConfig.js";
 import { BlipTransport } from "./BlipTransport.js";
@@ -140,12 +142,28 @@ export class BlipClient {
 	 * - {@link MediaResources.refreshExpiredUrl | refreshExpiredUrl}
 	 */
 	public readonly media: MediaResources;
+	/** Create, Schedule, list and delete active campaigns
+	 *
+	 * Available methods:
+	 * - {@link CampaignResources.create | create}
+	 * - {@link CampaignResources.getById | getById}
+	 * - {@link CampaignResources.getAll | getAll}
+	 * - {@link CampaignResources.getAllSummaries | getAllSummaries}
+	 * - {@link CampaignResources.getSummary | getSummary}
+	 * - {@link CampaignResources.getAudience | getAudience}
+	 * - {@link CampaignResources.getReport | getReport}
+	 * - {@link CampaignResources.getCampaignMessages | getCampaignMessages}
+	 * - {@link CampaignResources.delete | delete}
+	 */
+	public readonly campaign: CampaignResources;
 
 	/**
 	 * @param config - Transport configuration including `identifier` and `accessKey`.
 	 */
 	constructor(config: BlipTransportConfig) {
-		this.transport = new BlipTransport(config);
+		const parsedConfig = TransportConfigSchema.parse(config);
+
+		this.transport = new BlipTransport(parsedConfig);
 
 		this.attendants = new AttendantsResources(this.transport);
 		this.queues = new QueuesResources(this.transport);
@@ -157,6 +175,7 @@ export class BlipClient {
 		this.desk = new DeskResources(this.transport);
 		this.trackings = new TrackingResources(this.transport);
 		this.media = new MediaResources(this.transport);
+		this.campaign = new CampaignResources(this.transport);
 	}
 
 	/**

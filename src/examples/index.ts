@@ -2,8 +2,9 @@ import { BlipClient } from "../clients/BlipClient.js";
 
 const client = new BlipClient({
 	tenant: "wlck",
-	apiKey: process.env.API_KEY,
+	apiKey: process.env.API_KEY ?? "",
 });
+
 
 const res = await client.messages.getMergedThreads("5511954291628@wa.gw.msging.net", {
 	pagination: {

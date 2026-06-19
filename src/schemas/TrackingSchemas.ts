@@ -2,7 +2,6 @@ import z from "zod";
 import { ContactIdentitySchema } from "./ContactSchemas.js";
 
 
-
 export const CreateTrackingSchema = z.object({
 	category: z.string().min(1),
 	action: z.string().min(1),
