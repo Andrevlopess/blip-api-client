@@ -41,6 +41,7 @@ All resources are available directly on the client instance. Every method is ful
 - Contacts
 - Trackings
 - Media
+- Campaigns
 ---
 
 ## Error Handling

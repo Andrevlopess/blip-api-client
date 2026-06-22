@@ -72,6 +72,10 @@ export interface IBlipMessageBody {
 
 export type IBlipCommandBody = IBlipWriteCommandBody | IBlipReadCommandBody | IBlipDeleteCommandBody;
 
+export type IBlipCustomCommandBody = IBlipCommandBody & {
+	metadata?: Record<string, string>
+}
+
 export interface Resource {
 	itemType: string,
 	items: Record<string, any>[]
