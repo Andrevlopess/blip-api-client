@@ -1,14 +1,14 @@
-export type Method = "set" | "get" | "merge" | "delete";
-export type Status = "success" | "failure";
+export type CommandMethod = "set" | "get" | "merge" | "delete";
+export type CommandStatus = "success" | "failure";
 
-export type IBlipMutationResponse = BlipBaseResponse & { method: Omit<Method, "get"> };
+export type IBlipMutationResponse = BlipBaseResponse & { method: Omit<CommandMethod, "get"> };
 
 export type IBlipGetResponse<T> = BlipBaseResponse & { type: string; resource: T };
 
 export type IBlipSuccessfulResponse<T = never> = [T] extends [never] ? IBlipMutationResponse : IBlipGetResponse<T>;
 
 export interface BlipBaseResponse {
-	method: Method;
+	method: CommandMethod;
 	status: "success";
 	id: string;
 	from: string;
@@ -16,7 +16,7 @@ export interface BlipBaseResponse {
 	metadata: Record<string, any>;
 }
 export interface IBlipErrorResponsedata {
-	method: Method;
+	method: CommandMethod;
 	status: "failure";
 	reason: {
 		code: number;
@@ -45,19 +45,19 @@ export type BlipCommandResponse<T> = IBlipSuccessfulResponse<T> | IBlipErrorResp
 
 export interface IBlipReadCommandBody {
 	to: string;
-	method: Extract<Method, "get">;
+	method: Extract<CommandMethod, "get">;
 	uri: string;
 }
 
 export interface IBlipDeleteCommandBody {
 	to: string;
-	method: Extract<Method, "delete">;
+	method: Extract<CommandMethod, "delete">;
 	uri: string;
 }
 
 export interface IBlipWriteCommandBody {
 	to: string;
-	method: Extract<Method, "set" | "merge">;
+	method: Extract<CommandMethod, "set" | "merge">;
 	type: string;
 	resource: Record<string, any> | string | Resource;
 	uri: string;

@@ -10,7 +10,7 @@ import { QueuesResources } from "../resources/queues/queues.js";
 import { TicketsResources } from "../resources/tickets.js";
 import { TrackingResources } from "../resources/trackings.js";
 import { TransportConfigSchema } from "../schemas/TransportConfigSchema.js";
-import type { IBlipCommandBody, IBlipCustomCommandBody, IBlipSuccessfulResponse } from "../types/BlipCommands.js";
+import type { IBlipCustomCommandBody, IBlipSuccessfulResponse } from "../types/BlipCommands.js";
 import type { BlipTransportConfig } from "../types/BlipTransportConfig.js";
 import { BlipTransport } from "./BlipTransport.js";
 
