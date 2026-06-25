@@ -1,6 +1,5 @@
 {
 	"name": "@andrevlopes/blip-api-client",
-// export * from './interfaces/index.js';
 	"version": "1.0.8",
 	"description": "Blip API Client for javascript",
 	"type": "module",
