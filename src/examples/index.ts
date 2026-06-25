@@ -1,17 +1,18 @@
 import { BlipClient } from "../clients/BlipClient.js";
 
 const client = new BlipClient({
-	tenant: "wlck",
-	apiKey: process.env.API_KEY ?? "",
+	tenant: "uniasselvi",
+	apiKey: "dml0cnVsZWFkczpOTENyVzlEakJnVGJVMnBPMElucg==",
+	maxConcurrentRequests: 5,
 });
 
-
-const res = await client.messages.getMergedThreads("5511954291628@wa.gw.msging.net", {
-	pagination: {
-		take: 3,
-		storageDate: "2026-06-18T19:49:16.178Z",
+const permissions = await client.sendCustomCommand({
+	to: "postmaster@portal.blip.ai",
+	method: "get",
+	uri: `/applications/vitruleads@msging.net/permissions?$skip=0&$take=9999`,
+	metadata: {
+		"blip_portal.email": "andre.lopes@skeps.com.br",
 	},
-	direction: 'desc',
 });
 
-console.log(res);
+console.log(permissions.resource);

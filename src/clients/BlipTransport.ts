@@ -1,13 +1,13 @@
 import pLimit, { type LimitFunction } from "p-limit";
-import { CommandError } from "../errors/CommandError.js";
+import { BlipCommandError } from "../errors/BlipCommandError.js";
 import { api } from "../lib/api.js";
-import type { BlipTransportConfig } from "../types/BlipTransportConfig.js";
 import type {
 	BlipCommandResponse,
 	IBlipCommandBody,
 	IBlipMessageBody,
 	IBlipSuccessfulResponse,
 } from "../types/BlipCommands.js";
+import type { BlipTransportConfig } from "../types/BlipTransportConfig.js";
 
 export class BlipTransport {
 	private tenant: string;
@@ -29,34 +29,28 @@ export class BlipTransport {
 	}
 
 	async sendCommand<T = never>(body: IBlipCommandBody): Promise<IBlipSuccessfulResponse<T>> {
-		try {
-			const id = crypto.randomUUID();
+		const id = crypto.randomUUID();
 
-			return this.limit(async () => {
-				
-				if (!this.isProduction) {
-					console.log(`${body.method} command to ${body.uri}`);
+		return this.limit(async () => {
+			if (!this.isProduction) {
+				console.log(`${body.method} command to ${body.uri}`);
 
-					if (body.method !== "get") {
-						console.log("body: ", body);
-					}
+				if (body.method !== "get") {
+					console.log("body: ", body);
 				}
+			}
 
-				const { data } = await api.post<BlipCommandResponse<T>>(`https://${this.tenant}.http.msging.net/commands`, {
-					id,
-					...body,
-				});
-
-				if (data.status === "failure") {
-					throw new CommandError(`BLIP command failed: ${data.reason.description} (${data.reason.code})`);
-				}
-
-				return data;
+			const { data } = await api.post<BlipCommandResponse<T>>(`https://${this.tenant}.http.msging.net/commands`, {
+				id,
+				...body,
 			});
-		} catch (error) {
-			if (error instanceof CommandError) throw error;
-			throw new CommandError(error instanceof Error ? error.message : undefined);
-		}
+
+			if (data.status === "failure") {
+				throw new BlipCommandError(data);
+			}
+
+			return data;
+		});
 	}
 
 	async sendMessage(body: IBlipMessageBody): Promise<void> {
@@ -66,7 +60,7 @@ export class BlipTransport {
 			const { status } = await api.post(`https://${this.tenant}.http.msging.net/messages`, { id, ...body });
 
 			if (status !== 202) {
-				throw new CommandError("Failed to send message");
+				throw new BlipCommandError("Failed to send message");
 			}
 		});
 	}
