@@ -26,7 +26,7 @@
 		"package": "tsc -p tsconfig.build.json & pnpm pack",
 		"doc": "typedoc",
 		"build": "tsc -p tsconfig.build.json",
-		"test": "vitest",
+		"test": "vitest run --coverage",
 		"dev": "tsx src/index.ts",
 		"deploy:docs": "aws s3 sync docs/ s3://blip-api-client-docs --exclude \"*.html\" --cache-control \"public, max-age=31536000, immutable\" --delete && aws s3 sync docs/ s3://blip-api-client-docs --exclude \"*\" --include \"*.html\" --cache-control \"no-cache\" && aws cloudfront create-invalidation --distribution-id E1TZZJ823NNEQI --paths \"/*\""
 	},
@@ -49,6 +49,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^25.9.3",
+		"@vitest/coverage-v8": "4.1.9",
 		"tsx": "^4.22.4",
 		"typedoc": "^0.28.19",
 		"typedoc-github-theme": "^0.4.0",
