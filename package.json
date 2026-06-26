@@ -38,6 +38,9 @@
 	"author": "Andre V Lopes <andrellopes021@gmail.com> (https://github.com/Andrevlopess)",
 	"license": "ISC",
 	"homepage": "https://github.com/Andrevlopess/blip-api-client",
+	"repository": {
+		"url": "https://github.com/Andrevlopess/blip-api-client"
+	},
 	"bugs": {
 		"url": "https://github.com/Andrevlopess/blip-api-client/issues"
 	},
