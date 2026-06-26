@@ -56,6 +56,9 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
       - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
@@ -69,7 +72,7 @@ jobs:
         run: |
           node --version
           npm --version
-          
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
