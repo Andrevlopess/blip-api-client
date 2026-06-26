@@ -1,6 +1,6 @@
 {
 	"name": "@andrevlopes/blip-api-client",
-	"version": "1.0.9",
+	"version": "1.0.8",
 	"description": "Blip API Client for javascript",
 	"type": "module",
 	"publishConfig": {
